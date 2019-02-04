@@ -16,8 +16,8 @@ class CreateKategorisTable extends Migration
         Schema::create('kategoris', function (Blueprint $table) {
             $table->increments('id');
             $table->string('kategori');
-            $table->char('kelas');
-            $table->string('tingkatan');
+            $table->string('kelas')->nullable();
+            $table->string('tingkatan')->nullable();
             $table->integer('atlit_id')->unsigned();
 
             $table->foreign('atlit_id')->references('id')->on('atlits');
