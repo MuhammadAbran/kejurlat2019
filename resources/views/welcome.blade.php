@@ -771,7 +771,7 @@
          },
          data: { email_manager: email_manager, password: password },
          success: function(){
-               window.location = '/home';
+               window.location = "{{route('redirect.user')}}";
          },
          error: function(data){
             toastr.options = {

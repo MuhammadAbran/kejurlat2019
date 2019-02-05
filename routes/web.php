@@ -11,6 +11,12 @@
 |
 */
 Route::get('dashboard', function(){
+   session()->flash('msg', 'Anda Login Sebagai Admin!');
+   return view('admin.dashboard');
+});
+
+Route::get('user', function(){
+   session()->flash('msg', 'Anda Login Sebagai USER!');
    return view('admin.dashboard');
 });
 
@@ -24,4 +30,4 @@ Route::post('password_validation', 'Auth\LoginController@password_validation')->
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-// Route::get('redirectUser', )
+Route::get('redirectUser', 'RedirectUserController@redirect')->name('redirect.user');
