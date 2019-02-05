@@ -1,3 +1,4 @@
 @extends('layouts.dashboard')
+@extends('admin.menu')
 
-@section('title', 'Admin KEJURLAT 2019 | Dashboard')
+@section('title', 'KEJURLAT 2019 | Dashboard')

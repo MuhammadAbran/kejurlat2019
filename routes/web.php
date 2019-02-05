@@ -23,6 +23,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(
 //USER ROUTER
 Route::group(['prefix' => 'user', 'middleware' => 'auth'], function(){
    Route::get('dashboard', 'UserController@index')->name('dashboard.user');
+   Route::get('upload', 'UserController@uploadShow')->name('upload.user');
 });
 
 //Authenticate ROUTER
@@ -30,6 +31,7 @@ Auth::routes();
 
 //AJAX Validation ROUTER
 Route::post('email_validation', 'Auth\LoginController@email_validation')->name('email.validation');
+Route::post('email_validation_reg', 'Auth\RegisterController@email_validation')->name('email.validation.reg');
 Route::post('password_validation', 'Auth\LoginController@password_validation')->name('password.validation');
 
 //REDIRECT ROUTER

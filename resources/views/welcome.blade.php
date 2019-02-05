@@ -47,7 +47,7 @@
                      </div>
                       <div class="form-group">
                         <label>Email Manager</label>
-                        <input type="email" placeholder="Email Manager KOLAT" class="form-control" name="email_manager" required>
+                        <input type="email" placeholder="Email Manager KOLAT" class="form-control email_manager_reg" name="email_manager" required>
                      </div>
                       <div class="form-group">
                         <label>Password</label>
@@ -57,7 +57,7 @@
                         <label>Konfirmasi Password</label>
                         <input type="password" placeholder="Password" class="form-control" name="konfirmasi_password">
                      </div>
-                        <input type="submit" class="btn btn-sm btn-primary" name="daftar" value="DAFTAR">
+                        <input id="reg_button" type="submit" class="btn btn-sm btn-primary" name="daftar" value="DAFTAR">
                      </form>
                </div>
           </div>
@@ -708,6 +708,9 @@
 <script src="{{ asset('master/js/plugins/wow/wow.min.js') }}"></script>
 <script src="{{ asset('master/js/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
 
+<!-- Tinycon -->
+<script src="{{ asset('master/js/plugins/tinycon/tinycon.min.js') }}"></script>
+
 <!-- Jquery Validate -->
 <script src="{{ asset('master/js/plugins/validate/jquery.validate.min.js') }}"></script>
 
@@ -729,7 +732,37 @@
     </script>
 
 @endif
+
 <script>
+//Email Validation Register
+$('.email_manager_reg').on('blur', function(event){
+   event.preventDefault();
+   var email_manager = $(this).val();
+   $.ajax({
+      url: "{{ route('email.validation.reg') }}",
+      method: "POST",
+      headers: {
+         'X-CSRF-TOKEN': $('meta[name=csrf_token]').attr('content')
+      },
+      data: { email_manager: email_manager },
+      success: function(data){
+         if (data) {
+            toastr.options = {
+                closeButton: true,
+                preventDuplicates: true,
+                progressBar: true,
+                positionClass: 'toast-top-center',
+            };
+            toastr.error("Masukkan Email yang belum Terdaftar!",data);
+            $('#reg_button').prop('disabled', true);
+         }else{
+            $('#reg_button').prop('disabled', false);
+         }
+      }
+   });
+});
+
+
    //Email Validation LOGIN
    $('.email_manager').on('blur', function(event){
       event.preventDefault();
@@ -751,8 +784,10 @@
                };
                toastr.error("Masukkan Email yang Terdaftar!",data);
                $('#login_button').prop('disabled', true);
+               $('.password_manager').prop('disabled', true);
             }else{
                $('#login_button').prop('disabled', false);
+               $('.password_manager').prop('disabled', false);
             }
          }
       });

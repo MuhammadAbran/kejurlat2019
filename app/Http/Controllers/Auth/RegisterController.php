@@ -6,6 +6,7 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
@@ -54,6 +55,19 @@ class RegisterController extends Controller
             'email_manager' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
         ]);
+    }
+
+    public function email_validation(Request $req)
+    {
+      $email_manager = $req->email_manager;
+      $user = \App\User::select('email_manager')->where('email_manager', $email_manager)->first();
+      if ($email_manager != null) {
+         if ($user != null) {
+            echo "Email Ini Sudah Terdaftar!";
+         }
+      }else {
+         echo "Email Tidak Boleh Kosong!";
+      }
     }
 
     /**

@@ -8,7 +8,11 @@ class UserController extends Controller
 {
    public function index()
    {
-     session()->flash('msg', 'Anda Login Sebagai User!');
-     return view('admin.dashboard');
+     return view('user.dashboard');
+   }
+
+   public function uploadShow()
+   {
+     return view('user.upload_berkas');
    }
 }
