@@ -7,14 +7,17 @@ use Auth;
 
 class RedirectUserController extends Controller
 {
+   public function __construct()
+   {
+       $this->middleware('auth');
+   }
+
     public function redirect()
     {
       if (Auth::user()->role) {
-
-         return redirect('/dashboard');
+         return redirect()->route('dashboard.admin');
       }else {
-         
-         return redirect('/user');
+         return redirect()->route('dashboard.user');
       }
     }
 }

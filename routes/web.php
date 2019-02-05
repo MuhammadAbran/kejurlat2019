@@ -10,24 +10,32 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('dashboard', function(){
-   session()->flash('msg', 'Anda Login Sebagai Admin!');
-   return view('admin.dashboard');
-});
-
-Route::get('user', function(){
-   session()->flash('msg', 'Anda Login Sebagai USER!');
-   return view('admin.dashboard');
-});
-
+//LANDING PAGE
 Route::get('/', function () {
     return view('welcome');
 })->name('landing');
 
+//ADMIN ROUTER
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(){
+   Route::get('dashboard', 'AdminController@index')->name('dashboard.admin');
+});
+
+//USER ROUTER
+Route::group(['prefix' => 'user', 'middleware' => 'auth'], function(){
+   Route::get('dashboard', 'UserController@index')->name('dashboard.user');
+});
+
+//Authenticate ROUTER
 Auth::routes();
+
+//AJAX Validation ROUTER
 Route::post('email_validation', 'Auth\LoginController@email_validation')->name('email.validation');
 Route::post('password_validation', 'Auth\LoginController@password_validation')->name('password.validation');
 
-Route::get('/home', 'HomeController@index')->name('home');
-
+//REDIRECT ROUTER
 Route::get('redirectUser', 'RedirectUserController@redirect')->name('redirect.user');
+
+
+
+
+Route::get('/home', 'HomeController@index')->name('home');
