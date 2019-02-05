@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Session;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 
 class Authenticate extends Middleware
@@ -15,7 +16,8 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
         if (! $request->expectsJson()) {
-            return route('login');
+            session()->flash('msg', 'Untuk Mengakses Halaman Tersebut Silahkan Login Terlebih Dahulu!');
+            return route('landing');
         }
     }
 }

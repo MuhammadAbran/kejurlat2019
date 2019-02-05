@@ -23,6 +23,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+      toastr()->error('Untuk Mengakses Halaman Tersebut Silahkan Login Terlebih Dahulu!');
         return view('home');
     }
 }

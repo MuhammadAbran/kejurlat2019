@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="csrf_token" content="{{ csrf_token() }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -18,6 +19,11 @@
 
     <!-- Custom styles for this template -->
     <link href="{{ asset('master/css/style.css') }}" rel="stylesheet">
+    <!-- Toastr style -->
+   <link href="{{ asset('master/css/plugins/toastr/toastr.min.css') }}" rel="stylesheet">
+
+   <link href="{{ asset('master/css/animate.css') }}" rel="stylesheet">
+   <link href="{{ asset('master/css/style.css') }}" rel="stylesheet">
 </head>
 <body id="page-top" class="landing-page">
    <!-- MODAL -->
@@ -66,13 +72,14 @@
                   <h4 class="modal-title">Masuk</h4>
                </div>
                <div class="modal-body">
-                  <form role="form" id="pendaftaran">
-                      <div class="form-group"><label>Email Manager</label> <input type="email" placeholder="Email Manager KOLAT" class="form-control" name="email_manager" required></div>
-                      <div class="form-group"><label>Password</label> <input type="password" placeholder="Password" class="form-control" name="password"></div>
+                  <form method="POST" action="{{ route('login') }}" role="form" class="masuk">
+                     @csrf
+                      <div class="form-group"><label>Email Manager</label> <input type="email" placeholder="Email Manager KOLAT" value="{{ old('email_manager') }}" class="form-control email_manager" name="email_manager" required autofocus></div>
+                      <div class="form-group"><label>Password</label> <input type="password" placeholder="Password" class="form-control password_manager" name="password"></div>
                </div>
                      <div class="modal-footer">
                         <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Masuk</button>
+                        <button type="submit" id="login_button" class="btn btn-primary">Masuk</button>
                      </div>
                   </form>
           </div>
@@ -704,7 +711,85 @@
 <!-- Jquery Validate -->
 <script src="{{ asset('master/js/plugins/validate/jquery.validate.min.js') }}"></script>
 
+<!-- Toastr script -->
+<script src="{{ asset('master/js/plugins/toastr/toastr.min.js') }}"></script>
+@if (Session::has('msg'))
+
+    <script>
+        $(document).ready(function() {
+           toastr.options = {
+               closeButton: true,
+               progressBar: true,
+               preventDuplicates: true,
+               positionClass: 'toast-top-right',
+           };
+           toastr.warning('{{ Session::get('msg') }}', 'WARNING');
+
+        });
+    </script>
+
+@endif
 <script>
+   //Email Validation LOGIN
+   $('.email_manager').on('blur', function(event){
+      event.preventDefault();
+      var email_manager = $(this).val();
+      $.ajax({
+         url: "{{ route('email.validation') }}",
+         method: "POST",
+         headers: {
+            'X-CSRF-TOKEN': $('meta[name=csrf_token]').attr('content')
+         },
+         data: { email_manager: email_manager },
+         success: function(data){
+            if (data) {
+               toastr.options = {
+                   closeButton: true,
+                   preventDuplicates: true,
+                   progressBar: true,
+                   positionClass: 'toast-top-center',
+               };
+               toastr.error("Masukkan Email yang Terdaftar!",data);
+               $('#login_button').prop('disabled', true);
+            }else{
+               $('#login_button').prop('disabled', false);
+            }
+         }
+      });
+   });
+
+   //Password Validation LOGIN
+   $('#login_button').on('click', function(event){
+      event.preventDefault();
+      var password = $('.password_manager').val();
+      var email_manager = $('.email_manager').val();
+      $.ajax({
+         url: "{{ route('password.validation') }}",
+         method: "POST",
+         headers: {
+            'X-CSRF-TOKEN': $('meta[name=csrf_token]').attr('content')
+         },
+         data: { email_manager: email_manager, password: password },
+         success: function(){
+               window.location = '/home';
+         },
+         error: function(data){
+            toastr.options = {
+                closeButton: true,
+                progressBar: true,
+                preventDuplicates: true,
+                positionClass: 'toast-top-center',
+            };
+            if (!password) {
+               toastr.error("Password tidak Boleh Kosong!");
+            }else {
+               toastr.error("Password yang Anda Masukkan Salah!");
+            }
+         }
+      });
+   });
+
+
    // validation
    $(document).ready(function(){
 
@@ -737,6 +822,22 @@
           }
       });
  });
+
+ $(document).ready(function(){
+
+    $(".masuk").validate({
+        rules: {
+             password: {
+                 required: true,
+                 minlength: 3
+             },
+             email_manager: {
+                email: true,
+                required: true
+             }
+        }
+    });
+});
 
     $(document).ready(function () {
 

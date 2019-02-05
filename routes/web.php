@@ -16,8 +16,12 @@ Route::get('dashboard', function(){
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('landing');
 
 Auth::routes();
+Route::post('email_validation', 'Auth\LoginController@email_validation')->name('email.validation');
+Route::post('password_validation', 'Auth\LoginController@password_validation')->name('password.validation');
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+// Route::get('redirectUser', )
