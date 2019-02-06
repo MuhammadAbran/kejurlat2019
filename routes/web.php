@@ -24,6 +24,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(
 Route::group(['prefix' => 'user', 'middleware' => 'auth'], function(){
    Route::get('dashboard', 'UserController@index')->name('dashboard.user');
    Route::get('upload', 'UserController@uploadShow')->name('upload.user');
+   Route::get('atlit', 'UserController@atlitShow')->name('atlit.user');
+   Route::get('pembayaran', 'UserController@pembayaranShow')->name('pembayaran.user');
+   Route::get('pengumuman', 'UserController@pengumumanShow')->name('pengumuman.user');
 });
 
 //Authenticate ROUTER

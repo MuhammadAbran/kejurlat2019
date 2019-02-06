@@ -15,16 +15,16 @@
        </ul>
    </li>
    <li>
-       <a href="{{ route('upload.user') }}"><i class="fa fa-file-text"></i> <span class="nav-label">Upload Berkas</span> <span class="pull-right label label-primary">SPECIAL</span></a>
+       <a href="{{ route('upload.user') }}"><i class="fa fa-file-text"></i> <span class="nav-label">Upload Berkas</span> <span class="pull-right label label-primary">!</span></a>
    </li>
    <li>
-       <a href="#"><i class="fa fa-users"></i> <span class="nav-label">Data Atlit </span></a>
+       <a href="{{ route('atlit.user') }}"><i class="fa fa-users"></i> <span class="nav-label">Data Atlit </span></a>
    </li>
-   <li class="landing_link">
-       <a href="#"><i class="fa fa-credit-card"></i> <span class="nav-label">Pembayaran</span> <span class="label label-warning pull-right">NEW</span></a>
+   <li>
+       <a href="{{ route('pembayaran.user') }}"><i class="fa fa-credit-card"></i> <span class="nav-label">Pembayaran</span> <span class="label label-success pull-right">!</span></a>
    </li>
-   <li class="special_link">
-       <a href="#"><i class="fa fa-bullhorn"></i> <span class="nav-label">Pengumuman</span></a>
+   <li>
+       <a href="{{ route('pengumuman.user') }}"><i class="fa fa-bullhorn"></i> <span class="nav-label">Pengumuman</span></a>
    </li>
 @stop
 @section('content')
@@ -100,7 +100,7 @@
                                    <h2>Upload Berkas</h2>
                                    <p>Mengupload foto atau scan Surat Delegasi dan Surat Kontingen yang telah ditandatangani oleh Manager Kolat dan sudah sah.
                                    </p>
-                                   <a href="#" class="btn btn-sm btn-success"> Upload Sekarang</a>
+                                   <a href="{{ route('upload.user') }}" class="btn btn-sm btn-success"> Upload Sekarang</a>
                                    <span class="vertical-date">
                                        Today <br/>
                                        <small>Dec 24</small>
@@ -116,7 +116,7 @@
                                <div class="vertical-timeline-content">
                                    <h2>Lengkapi Data Atlit</h2>
                                    <p>Melengkapi data Atlit dan Mengupload berkas seperti pas foto, foto atau scan Surat Sehat, Surat Pernyataan, dan kartu identitas </p>
-                                   <a href="#" class="btn btn-sm btn-primary"> Lengkapi Sekarang </a>
+                                   <a href="{{ route('atlit.user') }}" class="btn btn-sm btn-primary"> Lengkapi Sekarang </a>
                                    <span class="vertical-date">
                                        Today <br/>
                                        <small>Dec 24</small>
@@ -132,7 +132,7 @@
                                <div class="vertical-timeline-content">
                                    <h2>Pembayaran</h2>
                                    <p>Pembayaran dilakukan dengan transfer sesuai jumlah yang tertera pada payment bill sesuai jumlah atlit yang didaftarkan dan sudah termasuk biaya kontingen dan administrasi. </p>
-                                   <a href="#" class="btn btn-sm btn-info">Upload Bukti Pembayaran</a>
+                                   <a href="{{ route('pembayaran.user') }}" class="btn btn-sm btn-info">Upload Bukti Pembayaran</a>
                                    <span class="vertical-date"> Yesterday <br/><small>Dec 23</small></span>
                                </div>
                            </div>

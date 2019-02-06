@@ -11,8 +11,27 @@ class UserController extends Controller
      return view('user.dashboard');
    }
 
+   //Upload Document
    public function uploadShow()
    {
      return view('user.upload_berkas');
+   }
+
+   //Data Atlit management
+   public function atlitShow()
+   {
+     return view('user.atlit');
+   }
+
+   //Pembayaran
+   public function pembayaranShow()
+   {
+     return view('user.pembayaran');
+   }
+
+   //Pengumuman
+   public function pengumumanShow()
+   {
+     return view('user.pengumuman');
    }
 }

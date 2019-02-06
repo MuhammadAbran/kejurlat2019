@@ -4,8 +4,8 @@
       <ul class="nav metismenu" id="side-menu">
           <li class="nav-header">
              @component('component.menu_profile')
-               @slot('name', Auth::user()->nama_manager)
-               @slot('jabatan', 'Manager Kontingen')
+               @slot('name', substr(Auth::user()->nama_manager, 0, 22))
+               @slot('jabatan', 'Manager Kolat')
              @endcomponent
               <div class="logo-element">
                   IN+

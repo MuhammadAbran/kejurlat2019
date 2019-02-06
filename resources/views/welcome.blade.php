@@ -39,11 +39,11 @@
                      @csrf
                       <div class="form-group">
                         <label>Nama Instansi</label>
-                        <input type="text" placeholder="Nama Instansi atau Sekolah" class="form-control" name="nama_instansi" required autofocus>
+                        <input type="text" placeholder="Nama Instansi atau Sekolah" class="form-control nama_instansi" name="nama_instansi" required autofocus>
                      </div>
                       <div class="form-group">
                         <label>Nama Manager</label>
-                        <input type="text" placeholder="Nama Manager KOLAT" class="form-control" name="nama_manager" required>
+                        <input type="text" placeholder="Nama Manager KOLAT" class="form-control nama_manager" name="nama_manager" required>
                      </div>
                       <div class="form-group">
                         <label>Email Manager</label>
@@ -51,11 +51,11 @@
                      </div>
                       <div class="form-group">
                         <label>Password</label>
-                        <input id="password" type="password" placeholder="Password" class="form-control" name="password">
+                        <input id="password" type="password" placeholder="Password" class="form-control password_manager_reg" name="password">
                      </div>
                       <div class="form-group">
                         <label>Konfirmasi Password</label>
-                        <input type="password" placeholder="Password" class="form-control" name="konfirmasi_password">
+                        <input type="password" placeholder="Password" class="form-control password_confirm_manager_reg" name="konfirmasi_password">
                      </div>
                         <input id="reg_button" type="submit" class="btn btn-sm btn-primary" name="daftar" value="DAFTAR">
                      </form>
@@ -102,11 +102,11 @@
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li><a class="page-scroll" href="#page-top">Home</a></li>
-                        <li><a class="page-scroll" href="#features">Features</a></li>
+                        <!-- <li><a class="page-scroll" href="#features">Features</a></li>
                         <li><a class="page-scroll" href="#team">Team</a></li>
                         <li><a class="page-scroll" href="#testimonials">Testimonials</a></li>
                         <li><a class="page-scroll" href="#pricing">Pricing</a></li>
-                        <li><a class="page-scroll" href="#contact">Contact</a></li>
+                        <li><a class="page-scroll" href="#contact">Contact</a></li> -->
                         <li><a class="page-scroll" data-toggle="modal" data-target="#myModal2">Daftar</a></li>
                         <li><a class="page-scroll" data-toggle="modal" data-target="#myModal4">Masuk</a></li>
                     </ul>
@@ -123,18 +123,18 @@
         <div class="item active">
             <div class="container">
                 <div class="carousel-caption">
-                    <h1>We craft<br/>
-                        brands, web apps,<br/>
-                        and user interfaces<br/>
-                        we are IN+ studio</h1>
-                    <p>Lorem Ipsum is simply dummy text of the printing.</p>
+                    <h1>Kejuaraan Antar Kolat 2019,<br/>
+                        Daerah Istimewa Yogyakarta<br/>
+                        Persiapkan Atlit Kalian,<br/>
+                        Dan jadilah Juara!</h1>
+                    <p>Daftarkan Kolat anda sekarang!</p>
                     <p>
                         <a class="btn btn-lg btn-primary" href="#" role="button" data-toggle="modal" data-target="#myModal2">DAFTAR SEKARANG</a>
-                        <a class="caption-link" href="#" role="button">Inspinia Theme</a>
+                        <a class="caption-link" href="#" role="button" data-toggle="modal" data-target="#myModal4">Masuk ke Dashboard</a>
                     </p>
                 </div>
                 <div class="carousel-image wow zoomIn">
-                    <img src="{{ asset('master/img/landing/laptop.png') }}" alt="laptop"/>
+                    <img src="{{ asset('master/img/landing/1.png') }}" alt="laptop"/>
                 </div>
             </div>
             <!-- Set background for slide in css -->
@@ -144,9 +144,9 @@
         <div class="item">
             <div class="container">
                 <div class="carousel-caption blank">
-                    <h1>We create meaningful <br/> interfaces that inspire.</h1>
-                    <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p>
-                    <p><a class="btn btn-lg btn-primary" href="#" role="button" data-toggle="modal" data-target="#myModal2">Daftar Sekarang</a></p>
+                    <h1>KEJURLAT Merpati Putih <br/> Daerah Istimewa Yogyakarta.</h1>
+                    <p>Daftarkan Kolat Disini!</p>
+                    <p><a class="btn btn-lg btn-primary" href="#" role="button" data-toggle="modal" data-target="#myModal2">Daftar</a></p>
                 </div>
             </div>
             <!-- Set background for slide in css -->
@@ -164,7 +164,7 @@
 </div>
 
 
-<section id="features" class="container services">
+<!-- <section id="features" class="container services">
     <div class="row">
         <div class="col-sm-3">
             <h2>Full responsive</h2>
@@ -694,7 +694,7 @@
             </div>
         </div>
     </div>
-</section>
+</section> -->
 
 <!-- Mainly scripts -->
 <script src="{{ asset('master/js/jquery-2.1.1.js') }}"></script>
@@ -717,7 +717,6 @@
 <!-- Toastr script -->
 <script src="{{ asset('master/js/plugins/toastr/toastr.min.js') }}"></script>
 @if (Session::has('msg'))
-
     <script>
         $(document).ready(function() {
            toastr.options = {
@@ -730,7 +729,6 @@
 
         });
     </script>
-
 @endif
 
 <script>
@@ -755,8 +753,16 @@ $('.email_manager_reg').on('blur', function(event){
             };
             toastr.error("Masukkan Email yang belum Terdaftar!",data);
             $('#reg_button').prop('disabled', true);
+            $('.nama_instansi').prop('disabled', true);
+            $('.nama_manager').prop('disabled', true);
+            $('.password_manager_reg').prop('disabled', true);
+            $('.password_confirm_manager_reg').prop('disabled', true);
          }else{
             $('#reg_button').prop('disabled', false);
+            $('.nama_instansi').prop('disabled', false);
+            $('.nama_manager').prop('disabled', false);
+            $('.password_manager_reg').prop('disabled', false);
+            $('.password_confirm_manager_reg').prop('disabled', false);
          }
       }
    });
@@ -830,30 +836,50 @@ $('.email_manager_reg').on('blur', function(event){
 
       $(".pendaftaran").validate({
           rules: {
+                nama_instansi: {
+                   required: true,
+                   maxlength: 50,
+                },
+                nama_manager: {
+                   required: true,
+                   maxlength: 50,
+                },
+                email_manager: {
+                   required: true,
+                   maxlength: 50,
+                   email: true,
+                },
                password: {
                    required: true,
+                   maxlength: 50,
                    minlength: 3
                },
                konfirmasi_password: {
-                 minlength: 3,
                  equalTo: "#password"
-               },
-               url: {
-                   required: true,
-                   url: true
-               },
-               number: {
-                   required: true,
-                   number: true
-               },
-               min: {
-                   required: true,
-                   minlength: 6
-               },
-               max: {
-                   required: true,
-                   maxlength: 4
                }
+          },
+          messages: {
+             password: {
+                required: "Password Tidak Boleh Kosong!",
+                maxlength: "Tidak Boleh Lebih Dari 50 Karater!",
+                minlength: "Password Minimal 3 Karakter!",
+             },
+             konfirmasi_password: {
+               equalTo: "Password Tidak Sama!"
+             },
+             nama_instansi: {
+                required: "Nama Instansi Tidak Boleh Kosong!",
+                maxlength: "Tidak Boleh Lebih Dari 50 Karater!"
+             },
+             nama_manager: {
+                required: "Nama Manager Tidak Boleh Kosong!",
+                maxlength: "Tidak Boleh Lebih Dari 50 Karater!"
+             },
+             email_manager: {
+                required: "Email Manager Tidak Boleh Kosong!",
+                maxlength: "Tidak Boleh Lebih Dari 50 Karater!",
+                email: "Masukkan Email Dengan Format Yang Benar!",
+             },
           }
       });
  });
@@ -862,14 +888,28 @@ $('.email_manager_reg').on('blur', function(event){
 
     $(".masuk").validate({
         rules: {
-             password: {
-                 required: true,
-                 minlength: 3
-             },
-             email_manager: {
+              email_manager: {
+                required: true,
+                maxlength: 50,
                 email: true,
-                required: true
-             }
+              },
+             password: {
+                required: true,
+                maxlength: 50,
+                minlength: 3
+             },
+        },
+        messages: {
+          password: {
+             required: "Password Tidak Boleh Kosong!",
+             maxlength: "Tidak Boleh Lebih Dari 50 Karater!",
+             minlength: "Password Minimal 3 Karakter!",
+          },
+          email_manager: {
+             required: "Email Manager Tidak Boleh Kosong!",
+             maxlength: "Tidak Boleh Lebih Dari 50 Karater!",
+             email: "Masukkan Email Dengan Format Yang Benar!",
+          },
         }
     });
 });

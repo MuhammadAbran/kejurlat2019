@@ -19,6 +19,7 @@ class Admin
         if (Auth::user()->role) {
            return $next($request);
         }
+        // session()->flash('admin', 'Hanya Administrator yang dapat Mengakses Halaman Tersebut!');
         return redirect()->route('dashboard.user');
     }
 }
