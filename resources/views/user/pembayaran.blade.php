@@ -53,29 +53,14 @@
         <div class="wrapper wrapper-content animated fadeInRight">
             <div class="ibox-content p-xl">
                     <div class="row">
-                        <div class="col-sm-6">
-                            <h5>From:</h5>
-                            <address>
-                                <strong>Inspinia, Inc.</strong><br>
-                                106 Jorg Avenu, 600/10<br>
-                                Chicago, VT 32456<br>
-                                <abbr title="Phone">P:</abbr> (123) 601-4590
-                            </address>
-                        </div>
-
+                       <div class="col-sm-6 text-left">
+                          <h4>Nomor Pembayaran</h4>
+                          <h4 class="text-navy">INV-000567F7-00</h4>
+                       </div>
                         <div class="col-sm-6 text-right">
-                            <h4>Invoice No.</h4>
-                            <h4 class="text-navy">INV-000567F7-00</h4>
-                            <span>To:</span>
-                            <address>
-                                <strong>Corporate, Inc.</strong><br>
-                                112 Street Avenu, 1080<br>
-                                Miami, CT 445611<br>
-                                <abbr title="Phone">P:</abbr> (120) 9000-4321
-                            </address>
                             <p>
-                                <span><strong>Invoice Date:</strong> Marh 18, 2014</span><br/>
-                                <span><strong>Due Date:</strong> March 24, 2014</span>
+                                <span><strong>Tanggal Pembayaran:</strong> {{ date('d-M-y') }}</span><br/>
+                                <span><strong>Tanggal Kadaluarsa:</strong> {{ date('d-M-y') }}</span>
                             </p>
                         </div>
                     </div>
@@ -84,39 +69,30 @@
                         <table class="table invoice-table">
                             <thead>
                             <tr>
-                                <th>Item List</th>
-                                <th>Quantity</th>
-                                <th>Unit Price</th>
-                                <th>Tax</th>
-                                <th>Total Price</th>
+                                <th>Pembayaran</th>
+                                <th>Jumlah</th>
+                                <th>Biaya Perorangan</th>
+                                <th>Biaya Administrasi</th>
+                                <th>Total</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
-                                <td><div><strong>Admin Theme with psd project layouts</strong></div>
-                                    <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</small></td>
-                                <td>1</td>
-                                <td>$26.00</td>
-                                <td>$5.98</td>
-                                <td>$31,98</td>
+                                <td><div><strong>Biaya Pendaftaran Atlit KEJURLAT 2019</strong></div>
+                                    <small>Penyewaan tempat, Penyewaan barang, alat-alat, panitian, dan lain-lain.</small></td>
+                                <td>20 atlit</td>
+                                <td>Rp. 100.000</td>
+                                <td>Rp. 2000</td>
+                                <td>Rp. 2.040.000</td>
                             </tr>
                             <tr>
-                                <td><div><strong>Wodpress Them customization</strong></div>
-                                    <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                        Eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                <td><div><strong>Biaya Pendaftaran KONTINGEN</strong></div>
+                                    <small>Biaya ini wajib dibayar masing-masing kontingen.
                                     </small></td>
-                                <td>2</td>
-                                <td>$80.00</td>
-                                <td>$36.80</td>
-                                <td>$196.80</td>
-                            </tr>
-                            <tr>
-                                <td><div><strong>Angular JS & Node JS Application</strong></div>
-                                    <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</small></td>
-                                <td>3</td>
-                                <td>$420.00</td>
-                                <td>$193.20</td>
-                                <td>$1033.20</td>
+                                <td>1 Kontingen</td>
+                                <td>Rp. 300.000</td>
+                                <td>Rp. 50.000</td>
+                                <td>Rp. 350.000</td>
                             </tr>
 
                             </tbody>
@@ -127,24 +103,24 @@
                         <tbody>
                         <tr>
                             <td><strong>Sub Total :</strong></td>
-                            <td>$1026.00</td>
+                            <td>Rp. 2.300.000</td>
                         </tr>
                         <tr>
-                            <td><strong>TAX :</strong></td>
-                            <td>$235.98</td>
+                            <td><strong>Administrasi :</strong></td>
+                            <td>Rp. 90.000</td>
                         </tr>
                         <tr>
                             <td><strong>TOTAL :</strong></td>
-                            <td>$1261.98</td>
+                            <td>Rp. 2.390.000</td>
                         </tr>
                         </tbody>
                     </table>
                     <div class="text-right">
-                        <button class="btn btn-primary"><i class="fa fa-dollar"></i> Make A Payment</button>
+                        <button class="btn btn-primary"><i class="fa fa-dollar"></i> Upload Bukti Pembayaran</button>
                     </div>
 
-                    <div class="well m-t"><strong>Comments</strong>
-                        It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less
+                    <div class="well m-t"><strong>Perhatian </strong>
+                        Biaya Administrasi adalah biaya pengembangan sistem informasi dan teknologi, biaya ini sudah termasuk biaya pengelolaan dan pemeliharaan sistem.
                     </div>
                 </div>
         </div>

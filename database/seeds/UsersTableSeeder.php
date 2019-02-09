@@ -17,6 +17,7 @@ class UsersTableSeeder extends Seeder
            'nama_manager' => 'Agung M',
            'email_manager' => 'a@a.a',
            'password' => bcrypt('aaa'),
+           'progress' => 0,
         ]);
         DB::table('users')->insert([
            'nama_instansi' => 'admin',
