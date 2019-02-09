@@ -108,7 +108,7 @@
                 <strong>Kejuaraan Antar Kolat</strong> 2019.
             </div>
             <div>
-                <strong>Copyright</strong> <a href="http://abran.atwebpages.com" class="text-danger" target="_blank">Muhammad Abdurrahman</a> &copy; 2019
+                <strong>Copyright</strong> &copy; 2019 <a href="http://abran.atwebpages.com" class="text-danger" target="_blank">Muhammad Abdurrahman</a>
             </div>
         </div>
 
