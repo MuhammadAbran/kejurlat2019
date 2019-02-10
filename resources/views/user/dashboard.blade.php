@@ -2,6 +2,28 @@
 @extends('user.menu')
 
 @section('title', 'KEJURLAT 2019 | Dashboard User')
+@push('styles')
+   <style media="screen">
+   .panel-body .danger:before{
+      content: ' \25CF';
+      font-size: 40px;
+      color: #DC3545;
+
+      }
+      .panel-body .warning:before{
+      content: ' \25CF';
+      font-size: 40px;
+      color: #FFC107;
+
+      }
+      .panel-body .success:before{
+      content: ' \25CF';
+      font-size: 40px;
+      color: #28A745;
+
+      }
+   </style>
+@endpush
 @section('menus')
    <li class="active">
        <a href="{{ route('dashboard.user') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span></a>
@@ -63,9 +85,9 @@
                                  <dt>Selesai:</dt>
                                  <dd>
                                      <div class="progress progress-striped active m-b-sm">
-                                         <div style="width: 60%;" class="progress-bar"></div>
+                                         <div style="width: {{ Auth::user()->progress }}%;" class="progress-bar"></div>
                                      </div>
-                                     <small>Proses Registrasi <strong>60%</strong> Selesai. Segera lengkapi data dan upload berkas yang diperlukan.</small>
+                                     <small>Proses Registrasi <strong>{{ Auth::user()->progress }}%</strong> Selesai. Segera lengkapi data dan upload berkas yang diperlukan.</small>
                                  </dd>
                              </dl>
                          </div>
@@ -90,6 +112,20 @@
                       </div>
                    </div>
                    <div class="ibox-content" id="ibox-content">
+                      <!-- <div class="row"> -->
+                        <div class="col-sm-2 pull-right">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                     <i class="fa fa-info-circle"></i> Info
+                                </div>
+                                <div class="panel-body">
+                                   <div class="danger"><span>Belum Selesai</span></div>
+                                   <div class="warning"><span>Menunggu Konfirmasi</span></div>
+                                   <div class="success"><span>Selesai</span></div>
+                                </div>
+                            </div>
+                        </div>
+                      <!-- </div> -->
                        <div id="vertical-timeline" class="vertical-container dark-timeline center-orientation">
                            <div class="vertical-timeline-block">
                                <div class="vertical-timeline-icon blue-bg">

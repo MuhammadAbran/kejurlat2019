@@ -25,7 +25,7 @@
    <link href="{{ asset('master/css/style.css') }}" rel="stylesheet">
 
     <!-- Font -->
-    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="{{ asset('master/font-awesome/css/font-awesome.css') }}" rel="stylesheet">
     @stack('styles')
 </head>
 
