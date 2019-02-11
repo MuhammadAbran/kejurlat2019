@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
 
 class AdminController extends Controller
 {
     public function index()
     {
-
-      return view('admin.dashboard');
+      $data['user'] = User::all();
+      return view('admin.dashboard', $data);
     }
 
     //Konfirmasi Upload Document
@@ -19,9 +20,11 @@ class AdminController extends Controller
    }
 
    //Data Kolat management
-   public function kolatShow()
+   public function kolatShow($id)
    {
-     return view('admin.kolat');
+     $data['user'] = User::find($id)->get();
+     // dd($data);
+     return view('admin.kolat', $data);
    }
 
    //Konfirmasi Pembayaran

@@ -9,9 +9,11 @@
    <li>
        <a href="#"><i class="fa fa-users"></i> <span class="nav-label">Data Kolat</span><span class="fa arrow"></span></a>
        <ul class="nav nav-second-level collapse">
-           <li><a href="#">KOLAT A</a></li>
-           <li><a href="#">KOLAT B</a></li>
-           <li><a href="#">KOLAT C</a></li>
+          @foreach($user as $kolat)
+            @if(!$kolat->role)
+               <li><a href="{{ route('kolat.admin', $kolat->id) }}">KOLAT {{ $kolat->nama_instansi }}</a></li>
+            @endif
+          @endforeach
        </ul>
    </li>
    <li>

@@ -19,7 +19,7 @@ Route::get('/', function () {
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(){
    Route::get('dashboard', 'AdminController@index')->name('dashboard.admin');
    Route::get('upload', 'AdminController@uploadShow')->name('upload.admin');
-   Route::get('kolat', 'AdminController@kolatShow')->name('kolat.admin');
+   Route::get('kolat/{id}', 'AdminController@kolatShow')->name('kolat.admin');
    Route::get('pembayaran', 'AdminController@pembayaranShow')->name('pembayaran.admin');
    Route::get('agenda', 'AdminController@agendaShow')->name('agenda.admin');
    Route::get('pengumuman', 'AdminController@pengumumanShow')->name('pengumuman.admin');
