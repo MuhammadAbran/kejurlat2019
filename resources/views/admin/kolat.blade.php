@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@extends('user.menu')
+@extends('admin.menu')
 
 @section('title', 'KEJURLAT 2019 | Dashboard User')
 @push('styles')
@@ -45,7 +45,7 @@
       @endforeach
         <ol class="breadcrumb">
            <li>
-               <a href="{{ route('dashboard.user') }}">Dashboard</a>
+               <a href="{{ route('dashboard.admin') }}">Dashboard</a>
            </li>
            <li class="active">
                <strong>Data Kolat</strong>

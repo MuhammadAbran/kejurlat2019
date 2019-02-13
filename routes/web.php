@@ -28,6 +28,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(
 //USER ROUTER
 Route::group(['prefix' => 'user', 'middleware' => 'auth'], function(){
    Route::get('dashboard', 'UserController@index')->name('dashboard.user');
+   Route::get('agenda', 'UserController@agenda')->name('agenda.user');
    Route::get('upload', 'UserController@uploadShow')->name('upload.user');
    Route::get('atlit', 'UserController@atlitShow')->name('atlit.user');
    Route::get('pembayaran', 'UserController@pembayaranShow')->name('pembayaran.user');

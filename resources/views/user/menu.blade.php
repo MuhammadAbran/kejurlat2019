@@ -8,7 +8,7 @@
                @slot('jabatan', 'Manager Kolat')
              @endcomponent
               <div class="logo-element">
-                  IN+
+                  <img alt="image" src="https://pbs.twimg.com/profile_images/909399057/Lambang_MP_400x400.jpg" width="50px" height="50px" />
               </div>
           </li>
           @yield('menus')

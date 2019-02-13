@@ -3,38 +3,26 @@
 
 @section('title', 'KEJURLAT 2019 | Dashboard User')
 @push('styles')
-   <style media="screen">
-   .panel-body .danger:before{
-      content: ' \25CF';
-      font-size: 40px;
-      color: #DC3545;
-
-      }
-      .panel-body .warning:before{
-      content: ' \25CF';
-      font-size: 40px;
-      color: #FFC107;
-
-      }
-      .panel-body .success:before{
-      content: ' \25CF';
-      font-size: 40px;
-      color: #28A745;
-
-      }
-   </style>
+<style media="screen">
+   .info2{
+      display: none;
+   }
+   @media only screen and (max-width: 1170px) {
+     .info1{
+        display: none;
+     }
+     .info2{
+        display: block;
+     }
+   }
+</style>
 @endpush
 @section('menus')
    <li class="active">
        <a href="{{ route('dashboard.user') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span></a>
    </li>
    <li>
-       <a href="#"><i class="fa fa-calendar"></i> <span class="nav-label">Agenda</span><span class="fa arrow"></span></a>
-       <ul class="nav nav-second-level collapse">
-           <li><a href="#">A</a></li>
-           <li><a href="#">B</a></li>
-           <li><a href="#">C</a></li>
-       </ul>
+       <a href="{{ route('agenda.user') }}"><i class="fa fa-calendar"></i> <span class="nav-label">Agenda</span></a>
    </li>
    <li>
        <a href="{{ route('upload.user') }}"><i class="fa fa-file-text"></i> <span class="nav-label">Upload Berkas</span> <span class="pull-right label label-primary">!</span></a>
@@ -87,7 +75,11 @@
                                      <div class="progress progress-striped active m-b-sm">
                                          <div style="width: {{ Auth::user()->progress }}%;" class="progress-bar"></div>
                                      </div>
-                                     <small>Proses Registrasi <strong>{{ Auth::user()->progress }}%</strong> Selesai. Segera lengkapi data dan upload berkas yang diperlukan.</small>
+                                     @if(Auth::user()->progress == 100)
+                                       <small>Proses Registrasi <strong>{{ Auth::user()->progress }}%</strong>. Menunggu Pengumuman Selanjutnya.. </small>
+                                     @else
+                                       <small>Proses Registrasi <strong>{{ Auth::user()->progress }}%</strong> Selesai. Segera lengkapi data dan upload berkas yang diperlukan.</small>
+                                     @endif
                                  </dd>
                              </dl>
                          </div>
@@ -112,78 +104,148 @@
                       </div>
                    </div>
                    <div class="ibox-content" id="ibox-content">
-                      <!-- <div class="row"> -->
-                        <div class="col-sm-2 pull-right">
+                      <!-- Info Panel -->
+                      <div class="info1">
+                        <div class="col-sm-3 pull-right">
                             <div class="panel panel-info">
                                 <div class="panel-heading">
                                      <i class="fa fa-info-circle"></i> Info
                                 </div>
                                 <div class="panel-body">
-                                   <div class="danger"><span>Belum Selesai</span></div>
-                                   <div class="warning"><span>Menunggu Konfirmasi</span></div>
-                                   <div class="success"><span>Selesai</span></div>
+                                   <div class="danger"><i class="fa fa-circle text-navy"></i> <span>Belum Selesai</span></div>
+                                   <div class="warning"><i class="fa fa-circle text-warning"></i> <span>Menunggu Konfirmasi</span></div>
+                                   <div class="success"><i class="fa fa-circle text-success"></i> <span>Selesai</span></div>
                                 </div>
                             </div>
                         </div>
-                      <!-- </div> -->
+                      </div>
+
+                      <div class="info2">
+                        <div class="row">
+                        <div class="col-sm-6 pull-left">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                     <i class="fa fa-info-circle"></i> Info
+                                </div>
+                                <div class="panel-body">
+                                   <div class="danger"><i class="fa fa-circle text-navy"></i> <span>Belum Selesai</span></div>
+                                   <div class="warning"><i class="fa fa-circle text-warning"></i> <span>Menunggu Konfirmasi</span></div>
+                                   <div class="success"><i class="fa fa-circle text-success"></i> <span>Selesai</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                      </div>
+                      <!-- end Info Panel -->
+
                        <div id="vertical-timeline" class="vertical-container dark-timeline center-orientation">
-                           <div class="vertical-timeline-block">
-                               <div class="vertical-timeline-icon blue-bg">
-                                   <i class="fa fa-file-text"></i>
-                               </div>
+                          @component('component.timeline')
+                              @slot('icon', 'fa-file-text')
+                                 @if(Auth::user()->progress == 0)
+                                    @slot('bg', 'navy-bg')
+                                    @slot('btn', 'primary')
+                                    @slot('btn_text', 'Upload Sekarang')
+                                    @slot('displai', '')
+                                    @slot('tgl_1', 'Belum Upload Berkas!')
+                                 @elseif(Auth::user()->progress == 15)
+                                    @slot('bg', 'yellow-bg')
+                                    @slot('btn', 'grey')
+                                    @slot('btn_text', '')
+                                    @slot('displai', 'display: none;')
+                                    @slot('tgl_1', 'Menunggu Konfirmasi...')
+                                 @elseif(Auth::user()->progress == 30 || Auth::user()->progress > 30 )
+                                    @slot('bg', 'blue-bg')
+                                    @slot('btn', 'grey')
+                                    @slot('btn_text', '')
+                                    @slot('displai', 'display: none;')
+                                    @slot('tgl_1', 'Upload Selesai')
+                                 @endif
+                              @slot('title', 'Upload Berkas')
+                              @slot('text', 'Mengupload foto atau scan Surat Delegasi dan Surat Kontingen yang telah ditandatangani oleh Manager Kolat dan sudah sah.')
+                              @slot('tgl_2', date('d-m-Y'))
+                              @slot('route', route('upload.user'))
+                          @endcomponent
+                          @component('component.timeline')
+                              @slot('icon', 'fa-users')
+                                 @if(Auth::user()->progress == 30)
+                                    @slot('bg', 'navy-bg')
+                                    @slot('btn', 'primary')
+                                    @slot('btn_text', 'Lengkapi Sekarang')
+                                    @slot('displai', '')
+                                    @slot('tgl_1', 'Belum Melengkapi Data!')
+                                 @elseif(Auth::user()->progress == 60 || Auth::user()->progress > 60)
+                                    @slot('bg', 'blue-bg')
+                                    @slot('btn', 'grey')
+                                    @slot('btn_text', '')
+                                    @slot('displai', 'display: none;')
+                                    @slot('tgl_1', 'Selesai Melengkapi Data')
+                                 @else
+                                    @slot('bg', 'navy-bg')
+                                    @slot('btn', 'primary')
+                                    @slot('btn_text', '')
+                                    @slot('tgl_1', 'Belum Melengkapi Data!')
+                                    @slot('displai', 'display: none;')
+                                 @endif
+                              @slot('title', 'Lengkapi Data Atlit')
+                              @slot('text', 'Melengkapi data Atlit dan Mengupload berkas seperti pas foto, foto atau scan Surat Sehat, Surat Pernyataan, dan kartu identitas.')
+                              @slot('tgl_2', date('d-m-Y'))
+                              @slot('route', route('atlit.user'))
+                          @endcomponent
 
-                               <div class="vertical-timeline-content">
-                                   <h2>Upload Berkas</h2>
-                                   <p>Mengupload foto atau scan Surat Delegasi dan Surat Kontingen yang telah ditandatangani oleh Manager Kolat dan sudah sah.
-                                   </p>
-                                   <a href="{{ route('upload.user') }}" class="btn btn-sm btn-success"> Upload Sekarang</a>
-                                   <span class="vertical-date">
-                                       Today <br/>
-                                       <small>Dec 24</small>
-                                   </span>
-                               </div>
-                           </div>
+                          @component('component.timeline')
+                              @slot('icon', 'fa-credit-card')
+                                 @if(Auth::user()->progress == 60)
+                                    @slot('bg', 'navy-bg')
+                                    @slot('btn', 'primary')
+                                    @slot('btn_text', 'Upload Bukti Pembayaran')
+                                    @slot('displai', '')
+                                    @slot('tgl_1', 'Belum Mengupload Bukti Pembayaran!')
+                                 @elseif(Auth::user()->progress == 75)
+                                    @slot('bg', 'yellow-bg')
+                                    @slot('btn', 'grey')
+                                    @slot('btn_text', '')
+                                    @slot('displai', 'display: none;')
+                                    @slot('tgl_1', 'Menunggu Konfirmasi...')
+                                 @elseif(Auth::user()->progress == 100)
+                                    @slot('bg', 'blue-bg')
+                                    @slot('btn', 'grey')
+                                    @slot('btn_text', '')
+                                    @slot('displai', 'display: none;')
+                                    @slot('tgl_1', 'Selesai Mengupload Bukti Pembayaran')
+                                 @else
+                                    @slot('bg', 'navy-bg')
+                                    @slot('btn', 'primary')
+                                    @slot('btn_text', '')
+                                    @slot('tgl_1', 'Belum Mengupload Bukti Pembayaran!')
+                                    @slot('displai', 'display: none;')
+                                 @endif
+                              @slot('title', 'Pembayaran')
+                              @slot('text', 'Pembayaran dilakukan dengan transfer sesuai jumlah yang tertera pada payment bill sesuai jumlah atlit yang didaftarkan dan sudah termasuk biaya kontingen dan administrasi.')
+                              @slot('tgl_2', date('d-m-Y'))
+                              @slot('route', route('pembayaran.user'))
+                          @endcomponent
 
-                           <div class="vertical-timeline-block">
-                               <div class="vertical-timeline-icon navy-bg">
-                                   <i class="fa fa-users"></i>
-                               </div>
+                          @component('component.timeline')
+                              @slot('icon', 'fa-clock-o')
+                                 @if(Auth::user()->progress == 100)
+                                    @slot('bg', 'yellow-bg')
+                                    @slot('btn', 'primary')
+                                    @slot('btn_text', '')
+                                    @slot('displai', 'display: none;')
+                                    @slot('tgl_1', 'Pengumuman')
+                                 @else
+                                    @slot('bg', 'navy-bg')
+                                    @slot('btn', 'primary')
+                                    @slot('btn_text', '')
+                                    @slot('tgl_1', 'Menunggu Pengumuman...')
+                                    @slot('displai', 'display: none;')
+                                 @endif
+                              @slot('title', 'Menunggu Pengumuman Selanjutnya...')
+                              @slot('text', '')
+                              @slot('tgl_2', date('d-m-Y'))
+                              @slot('route', route('pembayaran.user'))
+                          @endcomponent
 
-                               <div class="vertical-timeline-content">
-                                   <h2>Lengkapi Data Atlit</h2>
-                                   <p>Melengkapi data Atlit dan Mengupload berkas seperti pas foto, foto atau scan Surat Sehat, Surat Pernyataan, dan kartu identitas </p>
-                                   <a href="{{ route('atlit.user') }}" class="btn btn-sm btn-primary"> Lengkapi Sekarang </a>
-                                   <span class="vertical-date">
-                                       Today <br/>
-                                       <small>Dec 24</small>
-                                   </span>
-                               </div>
-                           </div>
-
-                           <div class="vertical-timeline-block">
-                               <div class="vertical-timeline-icon lazur-bg">
-                                   <i class="fa fa-credit-card"></i>
-                               </div>
-
-                               <div class="vertical-timeline-content">
-                                   <h2>Pembayaran</h2>
-                                   <p>Pembayaran dilakukan dengan transfer sesuai jumlah yang tertera pada payment bill sesuai jumlah atlit yang didaftarkan dan sudah termasuk biaya kontingen dan administrasi. </p>
-                                   <a href="{{ route('pembayaran.user') }}" class="btn btn-sm btn-info">Upload Bukti Pembayaran</a>
-                                   <span class="vertical-date"> Yesterday <br/><small>Dec 23</small></span>
-                               </div>
-                           </div>
-
-                           <div class="vertical-timeline-block">
-                               <div class="vertical-timeline-icon yellow-bg">
-                                   <i class="fa fa-clock-o"></i>
-                               </div>
-
-                               <div class="vertical-timeline-content">
-                                   <h2>Menunggu Pengumuman Selanjutnya...</h2>
-                                   <!-- <p>Tunggu Pengumuman Selanjutnya.</p> -->
-                                   <span class="vertical-date">Yesterday <br/><small>Dec 23</small></span>
-                               </div>
-                           </div>
                        </div>
 
                    </div>

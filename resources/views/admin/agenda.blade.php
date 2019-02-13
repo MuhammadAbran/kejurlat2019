@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@extends('user.menu')
+@extends('admin.menu')
 
 @section('title', 'KEJURLAT 2019 | Dashboard User')
 @push('styles')
@@ -9,27 +9,29 @@
 @endpush
 @section('menus')
    <li>
-       <a href="{{ route('dashboard.user') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span></a>
+       <a href="{{ route('dashboard.admin') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span></a>
    </li>
    <li>
-       <a href="#"><i class="fa fa-calendar"></i> <span class="nav-label">Agenda</span><span class="fa arrow"></span></a>
+       <a href="#"><i class="fa fa-users"></i> <span class="nav-label">Data Kolat</span><span class="fa arrow"></span></a>
        <ul class="nav nav-second-level collapse">
-           <li><a href="#">A</a></li>
-           <li><a href="#">B</a></li>
-           <li><a href="#">C</a></li>
+          @foreach($user as $kolat)
+            @if(!$kolat->role)
+               <li><a href="{{ route('kolat.admin', $kolat->id) }}">KOLAT {{ $kolat->nama_instansi }}</a></li>
+            @endif
+          @endforeach
        </ul>
    </li>
-   <li>
-       <a href="{{ route('upload.user') }}"><i class="fa fa-file-text"></i> <span class="nav-label">Upload Berkas</span> <span class="pull-right label label-primary">!</span></a>
-   </li>
-   <li>
-       <a href="{{ route('atlit.user') }}"><i class="fa fa-users"></i> <span class="nav-label">Data Atlit </span></a>
-   </li>
    <li class="active">
-       <a href="{{ route('pembayaran.user') }}"><i class="fa fa-credit-card"></i> <span class="nav-label">Pembayaran</span> <span class="label label-success pull-right">!</span></a>
+       <a href="{{ route('upload.admin') }}"><i class="fa fa-file-text"></i> <span class="nav-label">Konfirmasi Berkas</span> <span class="pull-right label label-primary">2</span></a>
    </li>
    <li>
-       <a href="{{ route('pengumuman.user') }}"><i class="fa fa-bullhorn"></i> <span class="nav-label">Pengumuman</span></a>
+       <a href="{{ route('pembayaran.admin') }}"><i class="fa fa-credit-card"></i> <span class="nav-label">Pembayaran</span> <span class="label label-warning pull-right">12</span></a>
+   </li>
+   <li>
+       <a href="{{ route('agenda.admin') }}"><i class="fa fa-calendar"></i> <span class="nav-label">Management Agenda </span></a>
+   </li>
+   <li>
+       <a href="{{ route('pengumuman.admin') }}"><i class="fa fa-bullhorn"></i> <span class="nav-label">Pengumuman</span></a>
    </li>
 @stop
 

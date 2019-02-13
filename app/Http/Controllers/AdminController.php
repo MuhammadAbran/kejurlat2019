@@ -16,7 +16,8 @@ class AdminController extends Controller
     //Konfirmasi Upload Document
    public function uploadShow()
    {
-     return view('admin.upload_berkas');
+     $data['user'] = User::all();
+     return view('admin.upload_berkas', $data);
    }
 
    //Data Kolat management
@@ -30,18 +31,21 @@ class AdminController extends Controller
    //Konfirmasi Pembayaran
    public function pembayaranShow()
    {
-     return view('admin.pembayaran');
+     $data['user'] = User::all();
+     return view('admin.pembayaran', $data);
    }
 
    //management Agenda
    public function agendaShow()
    {
-     return view('admin.agenda');
+      $data['user'] = User::all();
+     return view('admin.agenda', $data);
    }
 
    //Pengumuman
    public function pengumumanShow()
    {
-     return view('admin.pengumuman');
+      $data['user'] = User::all();
+     return view('admin.pengumuman', $data);
    }
 }

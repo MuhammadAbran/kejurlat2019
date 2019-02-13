@@ -11,6 +11,11 @@ class UserController extends Controller
      return view('user.dashboard');
    }
 
+   public function agenda()
+   {
+     return view('user.agenda');
+   }
+
    //Upload Document
    public function uploadShow()
    {
