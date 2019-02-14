@@ -51,9 +51,73 @@
             </li>
         </ol>
     </div>
-    <div class="col-lg-2">
-
-    </div>
 </div>
-
+<div class="wrapper wrapper-content animated fadeInRight">
+   <div class="row">
+      <div class="col-lg-12">
+         <div class="ibox-content inspinia-timeline">
+             <div class="timeline-item">
+                 <div class="row">
+                     <div class="col-xs-3 date">
+                         <i class="fa fa-briefcase"></i>
+                         {{ date('d-m-Y') }}
+                         <br/>
+                         <small class="text-navy">Hari Senin</small>
+                     </div>
+                     <div class="col-xs-7 content no-top-border">
+                         <p class="m-b-xs"><strong>Technical Meeting</strong></p>
+                         <p>Technical meeting akan dilaksanakan di gedung Grha Sabha Pramana Universitas Gadjah Mada.</p>
+                     </div>
+                 </div>
+             </div>
+             <div class="timeline-item">
+                 <div class="row">
+                     <div class="col-xs-3 date">
+                         <i class="fa fa-file-text"></i>
+                        {{ date('d-m-Y') }}
+                         <br/>
+                         <small class="text-navy">Hari Selasa</small>
+                     </div>
+                     <div class="col-xs-7 content">
+                         <p class="m-b-xs"><strong>Pengumpulan Berkas</strong></p>
+                         <p>Pengumpulan Surat Delagasi dan surat pernyataan di di Gelanggang Mahasiswa Universitas Gadjah Mada.</p>
+                     </div>
+                 </div>
+             </div>
+             <div class="timeline-item">
+                 <div class="row">
+                     <div class="col-xs-3 date">
+                         <i class="fa fa-coffee"></i>
+                         {{ date('d-m-Y') }}
+                         <br/>
+                         <small class="text-navy">Hari Rabu</small>
+                     </div>
+                     <div class="col-xs-7 content">
+                         <p class="m-b-xs"><strong>Briefing Acara</strong></p>
+                         <p>
+                             Panitia Melakukan briefing untuk mempersiapkan alat alat dan akomodasi untuk acara.
+                         </p>
+                     </div>
+                 </div>
+             </div>
+             <div class="timeline-item">
+                 <div class="row">
+                     <div class="col-xs-3 date">
+                         <i class="fa fa-phone"></i>
+                         {{ date('d-m-Y') }}
+                         <br/>
+                         <small class="text-navy">Hari Minggu</small>
+                     </div>
+                     <div class="col-xs-7 content">
+                         <p class="m-b-xs"><strong>Hari PERTANDINGAN</strong></p>
+                         <p>
+                             Hari PERTANDINGAN.
+                         </p>
+                     </div>
+                 </div>
+             </div>
+         </div>
+      </div>
+   </div>
+</div>
 @stop

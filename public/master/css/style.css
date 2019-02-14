@@ -163,7 +163,7 @@ h5 {
   transition: all 0.4s;
 }
 .nav > li.active {
-  border-left: 4px solid #19aa8d;
+  border-left: 4px solid #d63031;
   background: #293846;
 }
 .nav.nav-second-level > li.active {

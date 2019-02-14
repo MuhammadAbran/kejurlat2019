@@ -17,6 +17,7 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('nama_instansi');
             $table->string('nama_manager');
+            $table->string('avatar')->default('default.jpg');
             $table->string('email_manager')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

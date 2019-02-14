@@ -53,15 +53,6 @@
 <div class="wrapper wrapper-content animated fadeIn">
     <div class="row">
       <div class="col-lg-12">
-      <div class="ibox float-e-margins">
-           <div class="ibox-title">
-               <h5>Tabel Konfirmasi Berkas</h5>
-               <div class="ibox-tools">
-                   <a class="collapse-link">
-                       <i class="fa fa-chevron-up"></i>
-                   </a>
-               </div>
-           </div>
            <div class="ibox-content">
 
                <div class="table-responsive">
@@ -91,7 +82,6 @@
                </div>
 
            </div>
-      </div>
   </div>
     </div>
     </div>
@@ -105,12 +95,12 @@
         $('.dataTables-example').DataTable({
             dom: '<"html5buttons"B>lTfgitp',
             buttons: [
-                { extend: 'copy'},
-                {extend: 'csv'},
-                {extend: 'excel', title: 'ExampleFile'},
-                {extend: 'pdf', title: 'ExampleFile'},
+                {extend: 'copy', text: '<i class="fa fa-clipboard" aria-hidden="true"></i> Copy'},
+                {extend: 'csv', text: '<i class="fa fa-file-text-o" aria-hidden="true"></i> CSV'},
+                {extend: 'excel', title: 'Berkas', text: '<i class="fa fa-file-excel-o text-info" aria-hidden="true"></i> Excel'},
+                {extend: 'pdf', title: 'Berkas', text: '<i class="fa fa-file-pdf-o text-navy" aria-hidden="true"></i> PDF'},
 
-                {extend: 'print',
+                {extend: 'print', text: '<i class="fa fa-print text-success" aria-hidden="true"></i> Print',
                  customize: function (win){
                         $(win.document.body).addClass('white-bg');
                         $(win.document.body).css('font-size', '10px');

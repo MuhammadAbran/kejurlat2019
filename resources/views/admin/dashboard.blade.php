@@ -9,7 +9,7 @@
    <li>
        <a href="#"><i class="fa fa-users"></i> <span class="nav-label">Data Kolat</span><span class="fa arrow"></span></a>
        <ul class="nav nav-second-level collapse">
-          @foreach($user as $kolat)
+          @foreach($users as $kolat)
             @if(!$kolat->role)
                <li><a href="{{ route('kolat.admin', $kolat->id) }}">KOLAT {{ $kolat->nama_instansi }}</a></li>
             @endif
@@ -185,9 +185,7 @@
                             </div>
                             <div class="col-xs-7 content no-top-border">
                                 <p class="m-b-xs"><strong>Technical Meeting</strong></p>
-
                                 <p>Technical meeting akan dilaksanakan di gedung Grha Sabha Pramana Universitas Gadjah Mada.</p>
-
                             </div>
                         </div>
                     </div>
@@ -257,31 +255,23 @@
                     <table class="table table-hover no-margins">
                        <thead>
                        <tr>
-                           <th width=20%>Tanggal</th>
+                           <th width=20%>Updated</th>
                            <th width=40%>Nama Manager</th>
-                           <th width=30%>KOLAT</th>
-                           <th width=10%>Status</th>
+                           <th width=20%>KOLAT</th>
+                           <th width=20%>Status</th>
                        </tr>
                        </thead>
                        <tbody>
-                       <tr>
-                           <td><i class="fa fa-clock-o"></i> 10 maret</td>
-                           <td class="text-success"> <i class="fa fa-user"></i> Muhammad farhan nurhadi aldo </td>
-                           <td class="text-navy">UGM</td>
-                           <td><span class="label label-primary">Belum Membayar</span> </td>
-                       </tr>
-                       <tr>
-                           <td><i class="fa fa-clock-o"></i> 10:40am</td>
-                           <td class="text-success"> <i class="fa fa-user"></i> Muhammad Agung </td>
-                           <td class="text-navy">MAN 2 Sleman</td>
-                           <td><span class="label label-success">Registered</span> </td>
-                       </tr>
-                       <tr>
-                           <td><i class="fa fa-clock-o"></i> 10:40am</td>
-                           <td class="text-success"> <i class="fa fa-user"></i> Firdaus MH </td>
-                           <td class="text-navy">Universitas Islam Negri</td>
-                           <td><span class="label label-warning">Konfirmasi bayar</span> </td>
-                       </tr>
+                       @foreach($data as $status)
+                       @if(!$status['role'])
+                          <tr>
+                              <td><i class="fa fa-clock-o"></i> {{ $status['update'] }}</td>
+                              <td class="text-success"> <i class="fa fa-user"></i> {{ $status['ketua'] }} </td>
+                              <td class="text-navy">{{ $status['kolat'] }}</td>
+                              <td><span class="label label-{{ $status['label'] }}">{{ $status['status'] }}</span></td>
+                          </tr>
+                       @endif
+                       @endforeach
                        </tbody>
                     </table>
                 </div>

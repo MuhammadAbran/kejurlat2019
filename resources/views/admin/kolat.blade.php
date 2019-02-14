@@ -40,9 +40,23 @@
    <div class="col-lg-8">
       @foreach($user as $kolat)
         @if(!$kolat->role && $kolat->id == last(request()->segments()))
-           <h2>Data Atlit | KOLAT {{ $kolat->nama_instansi }}</h2>
+              <h2>Data Atlit | KOLAT {{ $kolat->nama_instansi }}
+                 @if($kolat->progress == 0)
+                     <span class="badge badge-primary">Belum Upload Berkas</span>
+                 @elseif($kolat->progress == 15)
+                     <span class="badge badge-warning">Menunggu Konfirmasi Berkas</span>
+                 @elseif($kolat->progress == 30)
+                     <span class="badge badge-primary">Belum Melengkapi Data Atlit</span>
+                 @elseif($kolat->progress == 60)
+                     <span class="badge badge-primary">Belum Membayar</span>
+                 @elseif($kolat->progress == 75)
+                     <span class="badge badge-warning">Menunggu Konfirmasi Pembayaran</span>
+                 @elseif($kolat->progress == 100)
+                     <span class="badge badge-success">Selesai</span>
+                 @endif
+              </h2>
         @endif
-      @endforeach
+        @endforeach
         <ol class="breadcrumb">
            <li>
                <a href="{{ route('dashboard.admin') }}">Dashboard</a>
@@ -54,8 +68,21 @@
    </div>
    <div class="col-lg-4">
         <div class="title-action animated fadeInRight">
-            <a href="#" class="btn btn-white" data-toggle="modal" data-target="#tambah_official"><i class="fa fa-plus"></i> Tambah Official </a>
-            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#tambah_atlit"><i class="fa fa-plus"></i> Tambah Atlit </a>
+           @foreach($user as $kolat)
+           @if(!$kolat->role && $kolat->id == last(request()->segments()))
+              @if($kolat->progress < 30)
+                  <a href="#" class="btn btn-primary btn-outline"><i class="fa fa-times"></i> Upload Berkas </a>
+              @elseif($kolat->progress >= 30)
+                  <a href="#" class="btn btn-success btn-outline"><i class="fa fa-check"></i> Upload Berkas </a>
+              @endif
+
+              @if($kolat->progress < 100)
+                  <a href="#" class="btn btn-primary btn-outline"><i class="fa fa-times"></i> Upload Bukti Pembayaran </a>
+              @elseif($kolat->progress >= 100)
+                  <a href="#" class="btn btn-success btn-outline"><i class="fa fa-check"></i> Upload Bukti Pembayaran </a>
+              @endif
+           @endif
+           @endforeach
         </div>
    </div>
 </div>

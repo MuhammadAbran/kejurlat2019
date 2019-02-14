@@ -12,12 +12,7 @@
        <a href="{{ route('dashboard.user') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span></a>
    </li>
    <li>
-       <a href="#"><i class="fa fa-calendar"></i> <span class="nav-label">Agenda</span><span class="fa arrow"></span></a>
-       <ul class="nav nav-second-level collapse">
-           <li><a href="#">A</a></li>
-           <li><a href="#">B</a></li>
-           <li><a href="#">C</a></li>
-       </ul>
+       <a href="{{ route('agenda.user') }}"><i class="fa fa-calendar"></i> <span class="nav-label">Agenda</span></a>
    </li>
    <li>
        <a href="{{ route('upload.user') }}"><i class="fa fa-file-text"></i> <span class="nav-label">Upload Berkas</span> <span class="pull-right label label-primary">!</span></a>

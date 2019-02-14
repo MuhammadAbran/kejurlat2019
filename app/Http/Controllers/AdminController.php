@@ -9,8 +9,41 @@ class AdminController extends Controller
 {
     public function index()
     {
-      $data['user'] = User::all();
-      return view('admin.dashboard', $data);
+      $users = User::all();
+      $data = [];
+      $status = '';
+      $label = '';
+      foreach ($users as $user) {
+         if ($user->progress == 0) {
+            $status = 'Belum Upload Berkas';
+            $label = 'primary';
+         }else if ($user->progress == 15) {
+            $status = 'Konfirmasi Berkas';
+            $label = 'warning';
+         }else if ($user->progress == 30) {
+            $status = 'Belum Melengkapi Data';
+            $label = 'primary';
+         }else if ($user->progress == 60) {
+            $status = 'Belum Membayar';
+            $label = 'primary';
+         }else if ($user->progress == 75) {
+            $status = 'Konfirmasi Pembayaran';
+            $label = 'warning';
+         }else if ($user->progress == 100) {
+            $status = 'Selesai';
+            $label = 'success';
+         }
+         $tanggal = (string)$user->updated_at;
+         $data[] = [
+            'role' => $user->role,
+            'kolat' => $user->nama_instansi,
+            'ketua' => $user->nama_manager,
+            'status' => $status,
+            'label' => $label,
+            'update' => date('d.m.Y', strtotime($tanggal)),
+         ];
+      }
+      return view('admin.dashboard', compact('users', 'data'));
     }
 
     //Konfirmasi Upload Document

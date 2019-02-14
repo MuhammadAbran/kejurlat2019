@@ -54,23 +54,26 @@
 </div>
 
 <!-- progress -->
+
+
+    <!-- timeline -->
     <div class="wrapper wrapper-content animated fadeInRight">
        <div class="row">
           <div class="col-lg-12">
                <div class="ibox float-e-margins">
                    <div class="ibox-title">
-                      <h5>Progress Registrasi</h5>
+                      <h5>Timeline Registrasi</h5>
                       <div class="ibox-tools">
                            <a class="collapse-link">
                                <i class="fa fa-chevron-up"></i>
                            </a>
                       </div>
                    </div>
-                   <div class="ibox-content">
+                   <div class="ibox-content" id="ibox-content">
                       <div class="row">
                          <div class="col-lg-12">
                              <dl class="dl-horizontal">
-                                 <dt>Selesai:</dt>
+                                 <dt>Progress Registrasi:</dt>
                                  <dd>
                                      <div class="progress progress-striped active m-b-sm">
                                          <div style="width: {{ Auth::user()->progress }}%;" class="progress-bar"></div>
@@ -84,26 +87,6 @@
                              </dl>
                          </div>
                      </div>
-                   </div>
-               </div>
-          </div>
-       </div>
-    </div>
-
-    <!-- timeline -->
-    <div class="wrapper wrapper-content animated fadeInRight margin-timeline">
-       <div class="row">
-          <div class="col-lg-12">
-               <div class="ibox float-e-margins">
-                   <div class="ibox-title">
-                      <h5>Timeline Registrasi</h5>
-                      <div class="ibox-tools">
-                           <a class="collapse-link">
-                               <i class="fa fa-chevron-up"></i>
-                           </a>
-                      </div>
-                   </div>
-                   <div class="ibox-content" id="ibox-content">
                       <!-- Info Panel -->
                       <div class="info1">
                         <div class="col-sm-3 pull-right">
