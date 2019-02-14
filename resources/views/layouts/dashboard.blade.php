@@ -10,7 +10,10 @@
     <link rel="shortcut icon" type="image/png" href="https://lh3.googleusercontent.com/RNCkYDRHmBdzj-4-BH1Ih6l6uKmW70bBJWme6q5-9poj-CWanbmb_XeboUIqgvsOFQ" />
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('master/css/bootstrap.min.css') }}" rel="stylesheet">
-
+    <!-- FullCalendar -->
+    <link href="{{ asset('master/css/plugins/fullcalendar/fullcalendar.css') }}" rel="stylesheet">
+    <link href="{{ asset('master/css/plugins/fullcalendar/fullcalendar.print.css') }}" rel='stylesheet' media='print'>
+    
     <!-- Animation CSS -->
     <link href="{{ asset('master/css/animate.css') }}" rel="stylesheet">
     <link href="{{ asset('master/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">

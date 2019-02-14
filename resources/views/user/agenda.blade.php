@@ -54,7 +54,7 @@
 </div>
 <div class="wrapper wrapper-content animated fadeInRight">
    <div class="row">
-      <div class="col-lg-12">
+      <div class="col-lg-6">
          <div class="ibox-content inspinia-timeline">
              <div class="timeline-item">
                  <div class="row">
@@ -118,6 +118,49 @@
              </div>
          </div>
       </div>
+      <div class="col-lg-6">
+           <div class="ibox-content">
+               <div id="calendar"></div>
+           </div>
+       </div>
    </div>
 </div>
+
 @stop
+@push('scripts')
+<!-- Full Calendar -->
+<script src="{{ asset('master/js/plugins/fullcalendar/moment.min.js') }}"></script>
+<script src="{{ asset('master/js/plugins/fullcalendar/fullcalendar.min.js') }}"></script>
+
+<script>
+    $(document).ready(function() {
+        /* initialize the calendar
+         -----------------------------------------------------------------*/
+        var date = new Date();
+        var d = date.getDate();
+        var m = date.getMonth();
+        var y = date.getFullYear();
+
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            editable: true,
+            droppable: true,
+            events: [
+                {
+                    title: 'Click for Google',
+                    start: new Date(y, m, 28),
+                    end: new Date(y, m, 29),
+                    url: 'http://google.com/'
+                }
+            ]
+        });
+
+
+    });
+
+</script>
+@endpush
