@@ -44,4 +44,12 @@
     </div>
 </div>
 
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="col-lg-12">
+            <div class="ibox-content" style="border-left: 4px solid red">
+               <h3><i class="fa fa-ban text-navy"></i> Belum Ada Pengumuman!</h3>
+            </div>
+    </div>
+ </div>
+
 @stop
