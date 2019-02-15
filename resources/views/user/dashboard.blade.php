@@ -96,6 +96,7 @@
                                 </div>
                                 <div class="panel-body">
                                    <div class="danger"><i class="fa fa-circle text-navy"></i> <span>Belum Selesai</span></div>
+                                   <div class="danger"><i class="fa fa-circle text-info"></i> <span>Periode Saat Ini</span></div>
                                    <div class="warning"><i class="fa fa-circle text-warning"></i> <span>Menunggu Konfirmasi</span></div>
                                    <div class="success"><i class="fa fa-circle text-success"></i> <span>Selesai</span></div>
                                 </div>
@@ -112,6 +113,7 @@
                                 </div>
                                 <div class="panel-body">
                                    <div class="danger"><i class="fa fa-circle text-navy"></i> <span>Belum Selesai</span></div>
+                                   <div class="danger"><i class="fa fa-circle text-info"></i> <span>Periode Saat Ini</span></div>
                                    <div class="warning"><i class="fa fa-circle text-warning"></i> <span>Menunggu Konfirmasi</span></div>
                                    <div class="success"><i class="fa fa-circle text-success"></i> <span>Selesai</span></div>
                                 </div>
@@ -125,11 +127,11 @@
                           @component('component.timeline')
                               @slot('icon', 'fa-file-text')
                                  @if(Auth::user()->progress == 0)
-                                    @slot('bg', 'navy-bg')
-                                    @slot('btn', 'primary')
+                                    @slot('bg', 'lazur-bg')
+                                    @slot('btn', 'info')
                                     @slot('btn_text', 'Upload Sekarang')
                                     @slot('displai', '')
-                                    @slot('tgl_1', 'Belum Upload Berkas!')
+                                    @slot('tgl_1', 'Segera Upload Berkas!')
                                  @elseif(Auth::user()->progress == 15)
                                     @slot('bg', 'yellow-bg')
                                     @slot('btn', 'grey')
@@ -151,11 +153,11 @@
                           @component('component.timeline')
                               @slot('icon', 'fa-users')
                                  @if(Auth::user()->progress == 30)
-                                    @slot('bg', 'navy-bg')
-                                    @slot('btn', 'primary')
+                                    @slot('bg', 'lazur-bg')
+                                    @slot('btn', 'info')
                                     @slot('btn_text', 'Lengkapi Sekarang')
                                     @slot('displai', '')
-                                    @slot('tgl_1', 'Belum Melengkapi Data!')
+                                    @slot('tgl_1', 'Segera Lengkapi Data!')
                                  @elseif(Auth::user()->progress == 60 || Auth::user()->progress > 60)
                                     @slot('bg', 'blue-bg')
                                     @slot('btn', 'grey')
@@ -178,11 +180,11 @@
                           @component('component.timeline')
                               @slot('icon', 'fa-credit-card')
                                  @if(Auth::user()->progress == 60)
-                                    @slot('bg', 'navy-bg')
-                                    @slot('btn', 'primary')
+                                    @slot('bg', 'lazur-bg')
+                                    @slot('btn', 'info')
                                     @slot('btn_text', 'Upload Bukti Pembayaran')
                                     @slot('displai', '')
-                                    @slot('tgl_1', 'Belum Mengupload Bukti Pembayaran!')
+                                    @slot('tgl_1', 'Segera Upload Bukti Pembayaran!')
                                  @elseif(Auth::user()->progress == 75)
                                     @slot('bg', 'yellow-bg')
                                     @slot('btn', 'grey')

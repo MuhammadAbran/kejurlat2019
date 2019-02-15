@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Berkas;
+use Auth;
 
 class UserController extends Controller
 {
@@ -16,10 +18,31 @@ class UserController extends Controller
      return view('user.agenda');
    }
 
-   //Upload Document
+   //Upload Berkas
    public function uploadShow()
    {
-     return view('user.upload_berkas');
+     $berkas = Berkas::where('user_id', Auth::user()->id)->get();
+     return view('user.upload_berkas', compact('berkas'));
+   }
+
+   public function upload(Request $req)
+   {
+     if ($req->hasFile('file')) {
+        $file = $req->file('file');
+        $name = "Upload Berkas".rand(1,2).'.'.$file->getClientOriginalExtension();
+        $file->move(public_path('storage/berkas'), $name);
+
+        return Berkas::create([
+           'berkas' => $name,
+           'user_id' => $req->id
+        ]);
+     }
+   }
+
+   public function uploadDel(Request $req)
+   {
+     $id = $req->id;
+     return Berkas::destroy($id);
    }
 
    //Data Atlit management

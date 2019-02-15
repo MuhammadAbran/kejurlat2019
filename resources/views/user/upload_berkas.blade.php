@@ -3,9 +3,14 @@
 
 @section('title', 'KEJURLAT 2019 | Dashboard User')
 @push('styles')
+<meta name="csrf" content="{{ csrf_token() }}">
 <link href="{{ asset('master/css/plugins/dropzone/basic.css') }}" rel="stylesheet">
 <link href="{{ asset('master/css/plugins/dropzone/dropzone.css') }}" rel="stylesheet">
 <link href="{{ asset('master/css/plugins/sweetalert/sweetalert.css') }}" rel="stylesheet">
+<link href="{{ asset('master/css/plugins/blueimp/css/blueimp-gallery.min.css') }}" rel="stylesheet">
+
+<!-- Ladda style -->
+<link href="{{ asset('master/css/plugins/ladda/ladda-themeless.min.css') }}" rel="stylesheet">
 @endpush
 @section('menus')
    <li>
@@ -31,7 +36,7 @@
 @section('content')
 <!-- breadcrumb -->
 <div class="row wrapper border-bottom white-bg page-heading">
-    <div class="col-lg-10">
+    <div class="col-lg-8">
         <h2>Upload Berkas | KOLAT {{ Auth::user()->nama_instansi }}</h2>
         <ol class="breadcrumb">
             <li>
@@ -42,10 +47,16 @@
             </li>
         </ol>
     </div>
+    <div class="col-lg-4">
+        <div class="title-action animated fadeInRight">
+            <a href="#" class="ladda-button btn btn-success refresh-btn" data-style="zoom-in" data-toggle="modal" data-target="#"><i class="fa fa-refresh"></i></a>
+            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#" {{ Auth::user()->progress > 0 ? 'disabled' : '' }}><i class="fa fa-lock"></i> Kunci Data </a>
+        </div>
+   </div>
 </div>
 
-<div class="wrapper wrapper-content animated fadeIn">
-    <div class="row">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row" style="display: {{ Auth::user()->progress > 0 ? 'none' : '' }}">
         <div class="col-lg-12">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
@@ -56,68 +67,112 @@
                     </a>
                 </div>
             </div>
+            <div class="ibox-content ibox-heading" style="border-left: 4px solid red">
+               <h5><i class="fa fa-refresh text-success"></i> Refresh Halaman setelah upload file untuk melihat detailnya</h5>
+               </div>
             <div class="ibox-content">
-                <form id="my-awesome-dropzone" class="dropzone" action="#">
-                    <div class="dropzone-previews"></div>
-                    <button type="submit" class="btn btn-primary pull-right demo4">Upload Semua Berkas!</button>
+                <form id="my-awesome-dropzone" class="dropzone" method="POST" enctype="multipart/form-data" action="{{ route('upload.user.data') }}">
+                   @csrf
+                   <input type="hidden" name="id" value="{{ Auth::user()->id }}">
                 </form>
-            </div>
+             </div>
         </div>
     </div>
     </div>
-    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+           @foreach($berkas as $file)
+            <div class="file-box">
+                <div class="file">
+                   <button data-id="{{ $file->id }}" type="button" class="btn btn-xs btn-primary pull-right del_berkas"  style="display: {{ Auth::user()->progress > 0 ? 'none' : '' }}"><i class="fa fa-trash"></i></button>
+                    <a href="{{ url('storage\berkas\\'.$file->berkas) }}" data-gallery="">
+                        <span class="corner"></span>
+                        <div class="image">
+                           <img alt="image" class="img-responsive" src="{{ url('storage\berkas\\'.$file->berkas) }}">
+                        </div>
+                        <div class="file-name">
+                           {{ $file->berkas }}
+                           <br/>
+                           <small>{{ $file->updated_at }}</small>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            @endforeach
+     </div>
+     </div>
+</div>
 @stop
 
 @push('scripts')
+<div class="lightBoxGallery">
+    <div id="blueimp-gallery" class="blueimp-gallery">
+      <div class="slides"></div>
+      <h3 class="title"></h3>
+      <a class="prev">‹</a>
+      <a class="next">›</a>
+      <a class="close">×</a>
+      <a class="play-pause"></a>
+      <ol class="indicator"></ol>
+   </div>
+</div>
 <!-- DROPZONE -->
 <script src="{{ asset('master/js/plugins/dropzone/dropzone.js') }}"></script>
 <script src="{{ asset('master/js/plugins/sweetalert/sweetalert.min.js') }}"></script>
+<!-- blueimp gallery -->
+<script src="{{ asset('master/js/plugins/blueimp/jquery.blueimp-gallery.min.js') }}"></script>
+<!-- Ladda -->
+<script src="{{ asset('master/js/plugins/ladda/spin.min.js') }}"></script>
+<script src="{{ asset('master/js/plugins/ladda/ladda.min.js') }}"></script>
+<script src="{{ asset('master/js/plugins/ladda/ladda.jquery.min.js') }}"></script>
 
 <script>
    $(document).ready(function(){
-      $('.demo4').click(function () {
-          swal({
-                      title: "Anda Yakin?",
-                      text: "Data yang sudah diupload tidak dapat diupload ulang sebelum dikonfirmasi oleh admin!",
-                      type: "warning",
-                      showCancelButton: true,
-                      confirmButtonColor: "#DD6B55",
-                      confirmButtonText: "Ya, Upload!",
-                      cancelButtonText: "Tidak, Tidak Jadi!",
-                      closeOnConfirm: false,
-                      closeOnCancel: false },
-                  function (isConfirm) {
-                      if (isConfirm) {
-                          swal("Terkirim!", "File Berhasil Diupload.", "success");
-                      } else {
-                          swal("Dibatalkan", "File Tidak Jadi Diupload", "error");
-                      }
-                  });
+       $('.file').each(function() {
+          animationHover(this, 'pulse');
+       });
+
+      var l = $( '.refresh-btn' ).ladda();
+
+      l.click(function(){
+          // Start loading
+          l.ladda( 'start' );
+          window.location.reload();
+
+          // Timeout example
+          // Do something in backend and then stop ladda
+          setTimeout(function(){
+             l.ladda('stop');
+          },12000)
+
+
+      });
+
+      $('.del_berkas').on('click', function(){
+         var id = $(this).data('id');
+         $.ajax({
+            url: "{{ route('upload.user.del') }}",
+            data: {id: id},
+            method: "POST",
+            headers: {
+               "X-CSRF-TOKEN": $('meta[name=csrf]').attr('content')
+            },
+            success: function(data){
+               window.location.reload();
+            },
+            error: function(){
+               console.error("error");
+            }
+         });
       });
 
         Dropzone.options.myAwesomeDropzone = {
 
-            autoProcessQueue: false,
-            uploadMultiple: true,
-            parallelUploads: 100,
-            maxFiles: 100,
-
-            // Dropzone settings
-            init: function() {
-                var myDropzone = this;
-
-                this.element.querySelector("button[type=submit]").addEventListener("click", function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    myDropzone.processQueue();
-                });
-                this.on("sendingmultiple", function() {
-                });
-                this.on("successmultiple", function(files, response) {
-                });
-                this.on("errormultiple", function(files, response) {
-                });
-            }
+            dictCancelUpload: true,
+            maxFilesize: 2,
+            addRemoveLinks: true,
+            maxFiles: 2,
 
         }
 
