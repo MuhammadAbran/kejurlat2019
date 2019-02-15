@@ -50,7 +50,7 @@
     <div class="col-lg-4">
         <div class="title-action animated fadeInRight">
             <a href="#" class="ladda-button btn btn-success refresh-btn" data-style="zoom-in" data-toggle="modal" data-target="#"><i class="fa fa-refresh"></i></a>
-            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#" {{ Auth::user()->progress > 0 ? 'disabled' : '' }}><i class="fa fa-lock"></i> Kunci Data </a>
+            <a href="#" class="btn btn-primary kunci_data" {{ Auth::user()->progress > 0 ? 'disabled' : '' }}><i class="fa fa-lock"></i> Kunci Data </a>
         </div>
    </div>
 </div>
@@ -175,6 +175,26 @@
             maxFiles: 2,
 
         }
+
+        $('.kunci_data').click(function () {
+            swal({
+                        title: "Anda Yakin?",
+                        text: "Data yang telah dikunci tidak akan dapat diupload ulang kecuali file tersebut tidak terkonfirmasi!",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Yes, Kunci!",
+                        cancelButtonText: "Tidak!",
+                        closeOnConfirm: false,
+                        closeOnCancel: false },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            swal("Terkunci!", "Data Berhasil dikunci.", "success");
+                        } else {
+                            swal("Tidak jadi", "Data Tidak jadi dikunci", "error");
+                        }
+                    });
+        });
 
    });
 </script>
