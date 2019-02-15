@@ -17,10 +17,10 @@
    <li>
        <a href="{{ route('upload.user') }}"><i class="fa fa-file-text"></i> <span class="nav-label">Upload Berkas</span> <span class="pull-right label label-primary">!</span></a>
    </li>
-   <li class="active">
+   <li class="active" style="display: {{ Auth::user()->progress < 30 ? 'none' : '' }}">
        <a href="{{ route('atlit.user') }}"><i class="fa fa-users"></i> <span class="nav-label">Data Atlit </span></a>
    </li>
-   <li>
+   <li style="display: {{ Auth::user()->progress < 60 ? 'none' : '' }}">
        <a href="{{ route('pembayaran.user') }}"><i class="fa fa-credit-card"></i> <span class="nav-label">Pembayaran</span> <span class="label label-success pull-right">!</span></a>
    </li>
    <li>
