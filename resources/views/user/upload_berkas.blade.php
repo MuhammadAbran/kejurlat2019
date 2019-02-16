@@ -52,7 +52,7 @@
             <a href="#" class="ladda-button btn btn-success refresh-btn" data-style="zoom-in"><i class="fa fa-refresh"></i></a>
             <a href="{{ url('storage\surat\surat_1.jpg') }}" class="btn btn-white" data-gallery="#contoh"><i class="fa fa-file-text-o"></i> Contoh Surat</a>
             <a href="{{ url('storage\surat\surat_2.jpg') }}" class="btn btn-white" data-gallery="#contoh" style="display:none"></a>
-            <a href="#" data-id="{{ Auth::user()->id }}" class="btn btn-primary kunci_data" {{ Auth::user()->progress > 0 || count(Auth::user()->berkas) < 2 ? 'disabled' : '' }}><i class="fa fa-lock"></i> Kunci Data </a>
+            <a href="#" data-upload="{{ Auth::user()->progress > 0 || count(Auth::user()->berkas) < 2 ? 0 : 1 }}" data-id="{{ Auth::user()->id }}" class="btn btn-primary kunci_data" {{ Auth::user()->progress > 0 || count(Auth::user()->berkas) < 2 ? 'disabled' : '' }}><i class="fa fa-lock"></i> Kunci Data </a>
         </div>
    </div>
 </div>
@@ -214,34 +214,36 @@
 
         $('.kunci_data').on('click', function () {
            var user_id = $(this).data('id');
-            swal({
-                        title: "Anda Yakin?",
-                        text: "Data yang telah dikunci tidak akan dapat diupload ulang kecuali file tersebut tidak terkonfirmasi!",
-                        type: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: "#DD6B55",
-                        confirmButtonText: "Yes, Kunci!",
-                        cancelButtonText: "Tidak!",
-                        closeOnConfirm: false,
-                        closeOnCancel: false },
-                    function (isConfirm) {
-                        if (isConfirm) {
-                           $.ajax({
-                              url: "{{ route('upload.kunci.data') }}",
-                              method: "POST",
-                              headers: {
-                                 "X-CSRF-TOKEN": $('meta[name=csrf]').attr('content')
-                              },
-                              data: {id: user_id},
-                              success: function(){
-                                 swal("Terkunci!", "Data Berhasil dikunci.", "success");
-                                 window.location.reload();
-                              }
-                           });
-                        } else {
-                            swal("Tidak jadi", "Data Tidak jadi dikunci", "error");
-                        }
-                    });
+           if ($(this).data('upload')) {
+             swal({
+                         title: "Anda Yakin?",
+                         text: "Data yang telah dikunci tidak akan dapat diupload ulang kecuali file tersebut tidak terkonfirmasi!",
+                         type: "warning",
+                         showCancelButton: true,
+                         confirmButtonColor: "#DD6B55",
+                         confirmButtonText: "Yes, Kunci!",
+                         cancelButtonText: "Tidak!",
+                         closeOnConfirm: false,
+                         closeOnCancel: false },
+                     function (isConfirm) {
+                         if (isConfirm) {
+                            $.ajax({
+                               url: "{{ route('upload.kunci.data') }}",
+                               method: "POST",
+                               headers: {
+                                  "X-CSRF-TOKEN": $('meta[name=csrf]').attr('content')
+                               },
+                               data: {id: user_id},
+                               success: function(){
+                                  swal("Terkunci!", "Data Berhasil dikunci.", "success");
+                                  window.location.reload();
+                               }
+                            });
+                         } else {
+                              swal("Tidak jadi", "Data Tidak jadi dikunci", "error");
+                         }
+                     });
+           }
         });
 
    });
