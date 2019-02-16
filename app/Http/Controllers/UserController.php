@@ -30,7 +30,7 @@ class UserController extends Controller
    {
      if ($req->hasFile('file')) {
         $file = $req->file('file');
-        $name = "Upload Berkas".rand(1,2).'.'.$file->getClientOriginalExtension();
+        $name = "Berkas ".uniqid().'.'.$file->getClientOriginalExtension();
         $file->move(public_path('storage/berkas'), $name);
 
         return Berkas::create([

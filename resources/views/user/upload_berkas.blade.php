@@ -51,12 +51,37 @@
         <div class="title-action animated fadeInRight">
             <a href="#" class="ladda-button btn btn-success refresh-btn" data-style="zoom-in"><i class="fa fa-refresh"></i></a>
             <a href="{{ url('storage\berkas\Upload Berkas2.png') }}" class="btn btn-white" data-gallery="#contoh"><i class="fa fa-file-text-o"></i> Contoh Surat</a>
+            <a href="{{ url('storage\berkas\Upload Berkas2.png') }}" class="btn btn-white" data-gallery="#contoh" style="display:none"></a>
             <a href="#" data-id="{{ Auth::user()->id }}" class="btn btn-primary kunci_data" {{ Auth::user()->progress > 0 ? 'disabled' : '' }}><i class="fa fa-lock"></i> Kunci Data </a>
         </div>
    </div>
 </div>
+@if(Auth::user()->progress == 15)
+<div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+               <div class="ibox-content" style="border-left: 4px solid #f9ca24">
+                 <h4><i class="fa fa-clock-o text-warning"></i> Menunggu Konfirmasi Admin...</h4>
+              </div>
+            </div>
+         </div>
+      </div>
+@elseif(Auth::user()->progress >= 30)
+<div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+               <div class="ibox-content" style="border-left: 4px solid #0097e6">
+                 <h4><i class="fa fa-check text-success"></i> Berkas yang anda kirim telah terkonfirmasi, silahkan lakukan progress Selanjutnya.</h4>
+              </div>
+            </div>
+         </div>
+      </div>
+@else
+<div class="wrapper wrapper-content  animated fadeInRight">
+@endif
 
-<div class="wrapper wrapper-content animated fadeInRight">
     <div class="row" style="display: {{ Auth::user()->progress > 0 ? 'none' : '' }}">
         <div class="col-lg-12">
         <div class="ibox float-e-margins">
@@ -140,9 +165,6 @@
 
 <script>
    $(document).ready(function(){
-       $('.file').each(function() {
-          animationHover(this, 'pulse');
-       });
 
       var l = $( '.refresh-btn' ).ladda();
 
@@ -170,6 +192,7 @@
                "X-CSRF-TOKEN": $('meta[name=csrf]').attr('content')
             },
             success: function(data){
+               swal("Terhapus!", "Data Berhasil dihapus.", "success");
                window.location.reload();
             },
             error: function(){
