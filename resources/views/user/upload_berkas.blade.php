@@ -49,9 +49,9 @@
     </div>
     <div class="col-lg-4">
         <div class="title-action animated fadeInRight">
-            <a href="#" class="ladda-button btn btn-success refresh-btn" data-style="zoom-in" data-toggle="modal" data-target="#"><i class="fa fa-refresh"></i></a>
-            <a href="{{ url('storage\berkas\Upload Berkas2.png') }}" class="btn btn-white" data-gallery=""><i class="fa fa-file-text-o"></i> Contoh Surat</a>
-            <a href="#" class="btn btn-primary kunci_data" {{ Auth::user()->progress > 0 ? 'disabled' : '' }}><i class="fa fa-lock"></i> Kunci Data </a>
+            <a href="#" class="ladda-button btn btn-success refresh-btn" data-style="zoom-in"><i class="fa fa-refresh"></i></a>
+            <a href="{{ url('storage\berkas\Upload Berkas2.png') }}" class="btn btn-white" data-gallery="#contoh"><i class="fa fa-file-text-o"></i> Contoh Surat</a>
+            <a href="#" data-id="{{ Auth::user()->id }}" class="btn btn-primary kunci_data" {{ Auth::user()->progress > 0 ? 'disabled' : '' }}><i class="fa fa-lock"></i> Kunci Data </a>
         </div>
    </div>
 </div>
@@ -117,6 +117,16 @@
       <a class="play-pause"></a>
       <ol class="indicator"></ol>
    </div>
+
+   <div id="contoh" class="blueimp-gallery">
+     <div class="slides"></div>
+     <h3 class="title"></h3>
+     <a class="prev">‹</a>
+     <a class="next">›</a>
+     <a class="close">×</a>
+     <a class="play-pause"></a>
+     <ol class="indicator"></ol>
+  </div>
 </div>
 <!-- DROPZONE -->
 <script src="{{ asset('master/js/plugins/dropzone/dropzone.js') }}"></script>
@@ -178,6 +188,7 @@
         }
 
         $('.kunci_data').click(function () {
+           var user_id = $(this).data('id');
             swal({
                         title: "Anda Yakin?",
                         text: "Data yang telah dikunci tidak akan dapat diupload ulang kecuali file tersebut tidak terkonfirmasi!",
@@ -190,7 +201,18 @@
                         closeOnCancel: false },
                     function (isConfirm) {
                         if (isConfirm) {
-                            swal("Terkunci!", "Data Berhasil dikunci.", "success");
+                           $.ajax({
+                              url: "{{ route('upload.kunci.data') }}",
+                              method: "POST",
+                              headers: {
+                                 "X-CSRF-TOKEN": $('meta[name=csrf]').attr('content')
+                              },
+                              data: {id: user_id},
+                              success: function(){
+                                 swal("Terkunci!", "Data Berhasil dikunci.", "success");
+                                 window.location.reload();
+                              }
+                           });
                         } else {
                             swal("Tidak jadi", "Data Tidak jadi dikunci", "error");
                         }

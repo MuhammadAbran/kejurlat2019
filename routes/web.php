@@ -33,6 +33,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function(){
    Route::get('upload', 'UserController@uploadShow')->name('upload.user');
    Route::post('upload', 'UserController@upload')->name('upload.user.data');
    Route::post('upload_delete', 'UserController@uploadDel')->name('upload.user.del');
+   Route::post('kunci_data', 'UserController@uploadKunci')->name('upload.kunci.data');
 
    Route::get('atlit', 'UserController@atlitShow')->name('atlit.user');
    Route::get('pembayaran', 'UserController@pembayaranShow')->name('pembayaran.user');

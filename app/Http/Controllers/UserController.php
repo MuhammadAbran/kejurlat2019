@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Berkas;
+use App\User;
 use Auth;
 
 class UserController extends Controller
@@ -43,6 +44,14 @@ class UserController extends Controller
    {
      $id = $req->id;
      return Berkas::destroy($id);
+   }
+
+   public function uploadKunci(Request $req)
+   {
+     $id = $req->id;
+     $user = User::find($id);
+     $user->progress = 15;
+     $user->save();
    }
 
    //Data Atlit management
