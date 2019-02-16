@@ -50,9 +50,9 @@
     <div class="col-lg-4">
         <div class="title-action animated fadeInRight">
             <a href="#" class="ladda-button btn btn-success refresh-btn" data-style="zoom-in"><i class="fa fa-refresh"></i></a>
-            <a href="{{ url('storage\berkas\Upload Berkas2.png') }}" class="btn btn-white" data-gallery="#contoh"><i class="fa fa-file-text-o"></i> Contoh Surat</a>
-            <a href="{{ url('storage\berkas\Upload Berkas2.png') }}" class="btn btn-white" data-gallery="#contoh" style="display:none"></a>
-            <a href="#" data-id="{{ Auth::user()->id }}" class="btn btn-primary kunci_data" {{ Auth::user()->progress > 0 ? 'disabled' : '' }}><i class="fa fa-lock"></i> Kunci Data </a>
+            <a href="{{ url('storage\surat\surat_1.jpg') }}" class="btn btn-white" data-gallery="#contoh"><i class="fa fa-file-text-o"></i> Contoh Surat</a>
+            <a href="{{ url('storage\surat\surat_2.jpg') }}" class="btn btn-white" data-gallery="#contoh" style="display:none"></a>
+            <a href="#" data-id="{{ Auth::user()->id }}" class="btn btn-primary kunci_data" {{ Auth::user()->progress > 0 || count(Auth::user()->berkas) < 2 ? 'disabled' : '' }}><i class="fa fa-lock"></i> Kunci Data </a>
         </div>
    </div>
 </div>
@@ -94,7 +94,7 @@
                 </div>
             </div>
             <div class="ibox-content ibox-heading" style="border-left: 4px solid red">
-               <h5><i class="fa fa-refresh text-success"></i> Refresh Halaman setelah upload file untuk melihat detail file</h5>
+               <h5><i class="fa fa-refresh text-success"></i> Refresh Halaman setelah upload file untuk melihat detail file dan untuk mengunci data.</h5>
             </div>
             <div class="ibox-content">
                 <form id="my-awesome-dropzone" class="dropzone" method="POST" enctype="multipart/form-data" action="{{ route('upload.user.data') }}">
@@ -193,7 +193,9 @@
             },
             success: function(data){
                swal("Terhapus!", "Data Berhasil dihapus.", "success");
-               window.location.reload();
+               setTimeout(function(){
+                  window.location.reload();
+               },1000);
             },
             error: function(){
                console.error("error");
@@ -210,7 +212,7 @@
 
         }
 
-        $('.kunci_data').click(function () {
+        $('.kunci_data').on('click', function () {
            var user_id = $(this).data('id');
             swal({
                         title: "Anda Yakin?",

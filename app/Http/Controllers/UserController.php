@@ -23,6 +23,8 @@ class UserController extends Controller
    public function uploadShow()
    {
      $berkas = Berkas::where('user_id', Auth::user()->id)->get();
+     // $user = Auth::user();
+     // dd($user->berkas);
      return view('user.upload_berkas', compact('berkas'));
    }
 
