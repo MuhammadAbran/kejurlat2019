@@ -59,7 +59,7 @@
          </div>
          <div class="col-lg-4">
               <div class="title-action animated fadeInRight">
-              <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#tambah_atlit" style="display: {{ Auth::user()->progress >= 60 ? 'none' : '' }}"><i class="fa fa-plus"></i> Atlit </a>
+                  <a href="#" class="btn btn-primary toggle_atlit" data-toggle="modal" data-target="#tambah_atlit" style="display: {{ Auth::user()->progress >= 60 ? 'none' : '' }}"><i class="fa fa-plus"></i> Atlit </a>
                   <a href="#" class="btn btn-white" data-toggle="modal" data-target="#tambah_official" style="display: {{ Auth::user()->progress >= 60 ? 'none' : '' }}"><i class="fa fa-plus"></i> Official </a>
                   <a href="#" data-atlit="{{ Auth::user()->progress >= 60 || $catlit <= 1 ? 0 : 1 }}" data-id="{{ Auth::user()->id }}" class="btn btn-warning kunci_data" {{ Auth::user()->progress >= 60 || $catlit <= 1 ? 'disabled' : '' }}><i class="fa fa-lock"></i> {{ Auth::user()->progress >= 60 ? 'Terkunci' : 'Kunci Data' }} </a>
               </div>
@@ -67,7 +67,7 @@
       </div>
          <!-- end breadcrumb -->
 
-         <!-- Modal -->
+         <!-- EDIT -->
          <div class="modal inmodal" id="myModal4" tabindex="-1" role="dialog"  aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content animated fadeIn">
@@ -75,19 +75,19 @@
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                         <div class="modal-title">
                            <div class="m-b-xs">
-                              <img alt="avatar" class="img-circle" src="http://adisanggoro.sch.id/assets/assets/avatar/avatar.png" style="width: 150px; height: 150px;">
+                              <span id="remove_img"></span>
+                              <span id="uploading"></span>
                            </div>
                            <div class="m-b-xs">
-                              <label title="Upload image file" for="inputImage" class="btn btn-primary">
-                                  <input type="file" accept="image/*" name="file" id="inputImage" class="hide">
-                                  Ubah Foto
-                              </label>
+                              <input type="file" accept="image/*" name="avatar" id="avatar_edit" style="display: none">
+                              <button class="ladda-button btn btn-primary ladda-btn" type="button" id="btn-edit" data-style="zoom-in">Edit Foto</button>
                            </div>
                         </div>
                      </div>
                      <div class="modal-body">
                         <form method="POST" action="{{ route('edit.atlit') }}" role="form">
                            @csrf
+                           <input type="hidden" id="edit_avatar" name="avatar" value="">
                            <input type="hidden" id="aidi" name="id" value="">
                            <div class="form-group"><label>Nama Lengkap</label> <input type="text" id="nama_atlit" placeholder="Nama Lengkap" value="" class="form-control" name="nama" autofocus></div>
                             <div class="form-group"><label>Tanggal Lahir</label> <input type="date" id="tgl_lahir" class="form-control" name="tgl_lahir"></div>
@@ -103,11 +103,11 @@
                               <div class="form-group"><label>Berat Badan</label> <input type="number" id="berat_badan" placeholder="Berat Badan" class="form-control" name="berat_badan"></div>
                             <label>Jenis Kelamin</label><div class="form-group">
                               <div class="radio radio-info radio-inline">
-                                 <input type="radio" id="inlineRadio1" value="Laki-Laki" class="jk" name="gender" checked="">
+                                 <input type="radio" id="inlineRadio1" value="Laki-Laki" class="jk_1" name="gender" checked="">
                                  <label for="inlineRadio1"> Laki-Laki </label>
                               </div>
                               <div class="radio radio-danger radio-inline">
-                                 <input type="radio" id="inlineRadio2" value="Perempuan" class="jk" name="gender">
+                                 <input type="radio" id="inlineRadio2" value="Perempuan" class="jk_2" name="gender">
                                  <label for="inlineRadio2"> Perempuan </label>
                               </div>
                             </div>
@@ -184,14 +184,15 @@
                            <span id="uploading"></span>
                         </div>
                         <div class="m-b-xs">
-                                  <input type="file" name="avatar" id="avatar" style="display: none">
+                                  <input type="file" accept="image/*" name="avatar" id="avatar" style="display: none">
                                   <button class="ladda-button btn btn-primary ladda-btn" type="button" id="btn-ck" data-style="zoom-in">Upload Foto</button>
                         </div>
                      </div>
                   </div>
                   <div class="modal-body">
-                     <form method="POST" action="{{ route('tambah.atlit') }}">
+                     <form method="POST" action="{{ route('tambah.atlit') }}" class="tambah_atlit_form">
                         @csrf
+                         <input id="avatar_input" type="hidden" name="avatar" value="">
                          <div class="form-group"><label>Nama Lengkap</label> <input type="text" placeholder="Nama Lengkap" value="{{ old('nama') }}" class="form-control" name="nama" autofocus></div>
                          <div class="form-group"><label>Tanggal Lahir</label> <input type="date" class="form-control" name="tgl_lahir"></div>
                          <div class="form-group">
@@ -318,7 +319,7 @@
 
                         <a data-toggle="modal" data-target="#myModal5" style="min-height: 400px">
                            <div class="m-b-xs">
-                              <img alt="avatar" class="img-circle" src="{{ url('storage/avatars/' . Auth::user()->avatar) }}" style="margin-right: -60px;width: 150px; height: 150px;"><span class="pull-right label label-primary">Atlit</span>
+                              <img alt="avatar" class="img-circle" src="{{ url('storage/avatars/' .$atlit->avatar) }}" style="margin-right: -60px;width: 150px; height: 150px;"><span class="pull-right label label-primary">Atlit</span>
                            </div>
                             <h3 class="m-b-xs"><strong>{{ $atlit->nama }}</strong></h3>
 
@@ -362,16 +363,20 @@
    });
 </script>
 @endif
+<!-- Jquery Validate -->
+<script src="{{ asset('master/js/plugins/validate/jquery.validate.min.js') }}"></script>
+
 <!-- SWAL -->
 <script src="{{ asset('master/js/plugins/sweetalert/sweetalert.min.js') }}"></script>
-<!-- Ladda -->
-<script src="{{ asset('master/js/plugins/ladda/spin.min.js') }}"></script>
-<script src="{{ asset('master/js/plugins/ladda/ladda.min.js') }}"></script>
-<script src="{{ asset('master/js/plugins/ladda/ladda.jquery.min.js') }}"></script>
 
 <script>
    $(document).ready(function(){
+
       $('#btn-ck').on('click', function(){
+         $('#avatar').click();
+      });
+
+      $('#btn-edit').on('click', function(){
          $('#avatar').click();
       });
 
@@ -399,15 +404,16 @@
                cache: false,
                processData: false,
                beforeSend: function(){
-                  // var ladda = $( '.ladda-btn' ).ladda();
-                  // ladda.ladda( 'start' );
+
                },
                success: function(data){
                   // setTimeout(function(){
                   //      ladda.ladda( 'stop' );
                   //  },1000);
                   swal("Berhasil!", "Berhasil Diupload!.", "success");
-                  $('#uploading').html(data);
+                  $('#avatar_input').val(data.avatar);
+                  $('#edit_avatar').val(data.avatar);
+                  $('#uploading').html(data.images);
                   $('#remove_img').css('display', 'none');
                },
                error: function(error){
@@ -416,6 +422,12 @@
                }
             });
          }
+      });
+
+      //Image Toggle
+      $(document).on('click', '.toggle_atlit', function(){
+         $('#uploading').html("");
+         $('#remove_img').css('display', '');
       });
 
       //kunci Data
@@ -471,13 +483,20 @@
                   data: { id: atlit_id },
                   success: function(data){
                      $('#aidi').val(atlit_id);
+                     $('#remove_img').html('<img id="" alt="avatar" class="img-circle" src="{{ url('storage/avatars') }}'+ '/' + data[0].avatar +'" style="width: 150px; height: 150px;">')
                      $('#nama_atlit').val(data[0].nama);
                      $('#kategori').val(data[0].kategori.kategori);
-                     if ($('.jk').val(data[0].gender)) {
-                        $('.jk').prop('checked', true);
-                     }else {
-                        $('.jk').prop('checked', false);
+
+                     var laki = $('.jk_1').val();
+                     var pr = $('.jk_2').val();
+                     if ( laki == data[0].gender) {
+                        $('.jk_1').prop('checked', true);
+                        $('.jk_2').prop('checked', false);
+                     }else if(pr == data[0].gender) {
+                        $('.jk_1').prop('checked', false);
+                        $('.jk_2').prop('checked', true);
                      }
+
                      $('#tgl_lahir').val(data[0].tgl_lahir);
                      $('#berat_badan').val(data[0].berat_badan);
                      $('#alamat_').val(data[0].alamat);
@@ -564,6 +583,59 @@
                           swal("Dibatalkan", "Data yang anda pilih Tidak Jadi Dihapus", "error");
                       }
                   });
+      });
+
+      // Validator
+      $('.tambah_atlit_form').validate({
+         rules: {
+            nama: {
+               required: true,
+               maxlength: 100,
+               minlength: 3
+            },
+            tgl_lahir:{
+               required: true
+            },
+            berat_badan: {
+               required: true,
+               maxlength: 100
+            },
+            alamat: {
+               required: true,
+               maxlength: 150,
+               minlength: 7
+            },
+            email: {
+               email: true,
+               required: true,
+               minlength: 3,
+               maxlength: 50
+            }
+         },
+         messages: {
+            nama: {
+               required: "Nama Lengkap Wajib Diisi!",
+               maxlength: "Tidak Boleh Lebih Dari 100 Karater!",
+               minlength: "Nama Minimal 3 Karakter!",
+            },
+            tgl_lahir: {
+               required: "Nama Lengkap Wajib Diisi!",
+            },
+            berat_badan: {
+               required: "Berat Badan Wajib Diisi!",
+            },
+            alamat: {
+               required: "Alamat Lengkap Wajib Diisi!",
+               maxlength: "Tidak Boleh Lebih Dari 100 Karater!",
+               minlength: "Alamat Lengkap Minimal 7 Karakter!",
+            },
+            email: {
+               required: "Email Tidak Boleh Kosong!",
+               maxlength: "Tidak Boleh Lebih Dari 50 Karater!",
+               minlength: "Email Minimal 3 Karakter!",
+               email: "Masukkan Email Dengan Format Yang Benar!",
+            }
+         }
       });
 
    });

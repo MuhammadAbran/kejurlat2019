@@ -88,11 +88,14 @@ class UserController extends Controller
    // Edit Atlit
    public function editAtlit(Request $req)
    {
-      dd($req->gender);
       $id = $req->id;
       $atlit = Atlit::find($id);
+      if (!$req->avatar) {
+         $req->avatar = $atlit->avatar;
+      }
       $atlit->update([
          'nama' => $req->nama,
+         'avatar' => $req->avatar,
          'tgl_lahir' => $req->tgl_lahir,
          'berat_badan' => $req->berat_badan,
          'gender' => $req->gender,
@@ -143,17 +146,24 @@ class UserController extends Controller
          $file = $req->file('file');
          $name = $file->getClientOriginalName();
          $file->move(public_path('storage/avatars'), $name);
-         
+
       }
 
-      return '<img id="uploading" alt="avatar" class="img-circle" src="'. url('storage/avatars') . '/' . $name .'" style="width: 150px; height: 150px;">';
+      return response()->json([
+         'avatar' => $name,
+         'images' => '<img alt="avatar" class="img-circle" src="'. url('storage/avatars') . '/' . $name .'" style="width: 150px; height: 150px;">'
+      ], 200);
    }
 
    // Tambah Atlit
    public function tambahAtlit(Request $req)
    {
+      if (!$req->avatar) {
+         $req->avatar = 'default.jpg';
+      }
       $atlit = Atlit::create([
          'nama' => $req->nama,
+         'avatar' => $req->avatar,
          'tgl_lahir' => $req->tgl_lahir,
          'berat_badan' => $req->berat_badan,
          'gender' => $req->gender,
