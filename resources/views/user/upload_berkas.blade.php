@@ -20,13 +20,13 @@
        <a href="{{ route('agenda.user') }}"><i class="fa fa-calendar"></i> <span class="nav-label">Agenda</span></a>
    </li>
    <li class="active">
-       <a href="{{ route('upload.user') }}"><i class="fa fa-file-text"></i> <span class="nav-label">Upload Berkas</span> <span class="pull-right label label-primary">!</span></a>
+       <a href="{{ route('upload.user') }}"><i class="fa fa-file-text"></i> <span class="nav-label">Upload Berkas</span> <span class="pull-right label label-primary" style="display: {{ Auth::user()->progress >= 30 ? 'none' : '' }}">!</span></a>
    </li>
    <li style="display: {{ Auth::user()->progress < 30 ? 'none' : '' }}">
        <a href="{{ route('atlit.user') }}"><i class="fa fa-users"></i> <span class="nav-label">Data Atlit </span></a>
    </li>
    <li style="display: {{ Auth::user()->progress < 60 ? 'none' : '' }}">
-       <a href="{{ route('pembayaran.user') }}"><i class="fa fa-credit-card"></i> <span class="nav-label">Pembayaran</span> <span class="label label-success pull-right">!</span></a>
+       <a href="{{ route('pembayaran.user') }}"><i class="fa fa-credit-card"></i> <span class="nav-label">Pembayaran</span> <span class="label label-success pull-right" style="display: {{ Auth::user()->progress > 75 ? 'none' : '' }}">!</span></a>
    </li>
    <li>
        <a href="{{ route('pengumuman.user') }}"><i class="fa fa-bullhorn"></i> <span class="nav-label">Pengumuman</span></a>
@@ -107,26 +107,8 @@
     </div>
 
     <div class="row">
-        <div class="col-lg-12">
-           @foreach($berkas as $file)
-            <div class="file-box">
-                <div class="file">
-                   <button data-id="{{ $file->id }}" type="button" class="btn btn-xs btn-primary pull-right del_berkas"  style="display: {{ Auth::user()->progress > 0 ? 'none' : '' }}"><i class="fa fa-trash"></i></button>
-                    <a href="{{ url('storage\berkas\\'.$file->berkas) }}" data-gallery="">
-                        <span class="corner"></span>
-                        <div class="image">
-                           <img alt="image" class="img-responsive" src="{{ url('storage\berkas\\'.$file->berkas) }}">
-                        </div>
-                        <div class="file-name">
-                           {{ $file->berkas }}
-                           <br/>
-                           <small>{{ $file->updated_at }}</small>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            @endforeach
-     </div>
+        <div class="col-lg-12 uploadGetData">
+        </div>
      </div>
 </div>
 @stop
@@ -166,6 +148,25 @@
 <script>
    $(document).ready(function(){
 
+      var timer;
+      timer = setTimeout(function(){
+         $.get('http://localhost:8000/user/uploadGetData',
+           function(data){
+               $(data).each(function(i, upload){
+                  $('.uploadGetData').append($('<div class="file-box">')
+                     .append($('<div class="file">')
+                     .append('<button data-id="'+ upload.id +'" type="button" class="btn btn-xs btn-primary pull-right del_berkas" style="display: {{ Auth::user()->progress > 0 ? 'none' : 'block' }}"><i class="fa fa-trash"></i></button>')
+                     .append($('<a href="{{ url("storage/berkas/") }}'+ "/"  + upload.berkas +'" data-gallery="">')
+                             .append('<span class="corner">')
+                             .append($('<div class="image">').append('<img alt="image" class="img-responsive" src="{{ url("storage/berkas/") }}'+ "/"  + upload.berkas +'">'))
+                             .append($('<div class="file-name">').append(upload.berkas).append('</br>').append($('<small>').append(upload.updated_at)))
+                  )
+               )
+           )
+               })
+           });
+      },2000);
+
       var l = $( '.refresh-btn' ).ladda();
 
       l.click(function(){
@@ -182,26 +183,27 @@
 
       });
 
-      $('.del_berkas').on('click', function(){
-         var id = $(this).data('id');
-         $.ajax({
-            url: "{{ route('upload.user.del') }}",
-            data: {id: id},
-            method: "POST",
-            headers: {
-               "X-CSRF-TOKEN": $('meta[name=csrf]').attr('content')
-            },
-            success: function(data){
-               swal("Terhapus!", "Data Berhasil dihapus.", "success");
-               setTimeout(function(){
-                  window.location.reload();
-               },1000);
-            },
-            error: function(){
-               console.error("error");
-            }
+         $(document).on('click', '.del_berkas', function(){
+            var id = $(this).data('id');
+            console.log(id);
+            $.ajax({
+               url: "{{ route('upload.user.del') }}",
+               data: {id: id},
+               method: "POST",
+               headers: {
+                  "X-CSRF-TOKEN": $('meta[name=csrf]').attr('content')
+               },
+               success: function(data){
+                  swal("Terhapus!", "Data Berhasil dihapus.", "success");
+                  setTimeout(function(){
+                     window.location.reload();
+                  },1000);
+               },
+               error: function(){
+                  console.error("error");
+               }
+            });
          });
-      });
 
         Dropzone.options.myAwesomeDropzone = {
 
@@ -236,7 +238,9 @@
                                data: {id: user_id},
                                success: function(){
                                   swal("Terkunci!", "Data Berhasil dikunci.", "success");
-                                  window.location.reload();
+                                  setTimeout(function(){
+                                     window.location.href = "{{ route('dashboard.user') }}";
+                                  },1000);
                                }
                             });
                          } else {

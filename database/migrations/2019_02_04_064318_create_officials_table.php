@@ -18,7 +18,9 @@ class CreateOfficialsTable extends Migration
            $table->string('nama');
            $table->string('email')->unique();
            $table->date('tgl_lahir');
-           $table->boolean('jenis_kelamin');
+           $table->string('gender');
+           $table->text('alamat');
+           $table->string('avatar')->default('default.jpg');
            $table->integer('user_id')->unsigned();
 
            $table->foreign('user_id')->references('id')->on('users');

@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Pembayaran;
+use App\Harga;
 use App\Berkas;
+use App\Atlit;
+use App\Official;
 use App\User;
 use Auth;
 
@@ -22,10 +26,14 @@ class UserController extends Controller
    //Upload Berkas
    public function uploadShow()
    {
-     $berkas = Berkas::where('user_id', Auth::user()->id)->get();
-     // $user = Auth::user();
-     // dd($user->berkas);
      return view('user.upload_berkas', compact('berkas'));
+   }
+
+   public function uploadGetData()
+   {
+      $berkas = Berkas::where('user_id', Auth::user()->id)->get();
+
+      return response()->json($berkas, 200);
    }
 
    public function upload(Request $req)
@@ -59,13 +67,157 @@ class UserController extends Controller
    //Data Atlit management
    public function atlitShow()
    {
-     return view('user.atlit');
+     $id = Auth::user()->id;
+     $atlits = Atlit::all();
+     $offs = Official::all();
+     if (Atlit::where('user_id', $id)) {
+        $atlit = Atlit::where('user_id', $id)->get();
+        $catlit = count($atlit);
+     }else {
+        $catlit = 0;
+     }
+     return view('user.atlit', compact(['atlits', 'offs', 'catlit']));
+   }
+
+   // Delete Atlit
+   public function delAtlit(Request $req)
+   {
+      Atlit::destroy($req->id);
+   }
+
+   // Edit Atlit
+   public function editAtlit(Request $req)
+   {
+      dd($req->gender);
+      $id = $req->id;
+      $atlit = Atlit::find($id);
+      $atlit->update([
+         'nama' => $req->nama,
+         'tgl_lahir' => $req->tgl_lahir,
+         'berat_badan' => $req->berat_badan,
+         'gender' => $req->gender,
+         'alamat' => $req->alamat,
+         'email' => $req->email,
+         'user_id' => Auth::user()->id
+      ]);
+      $atlit->kategori()->update([
+         'kategori' => $req->kategori
+      ]);
+      session()->flash('atlit', 'Atlit Berhasil Diupdate!');
+      return redirect()->back();
+   }
+
+   // Edit Data Atlit
+   public function editDataAtlit(Request $req)
+   {
+      $atlit = Atlit::with('kategori')->find($req->id);
+      return response()->json([
+        $atlit
+     ], 200);
+   }
+
+   // Delete Official
+   public function delOfficial(Request $req)
+   {
+      Official::destroy($req->id);
+   }
+
+   // Tambah Official
+   public function tambahOfficial(Request $req)
+   {
+      $official = Official::create([
+         'nama' => $req->nama,
+         'tgl_lahir' => $req->tgl_lahir,
+         'gender' => $req->gender,
+         'alamat' => $req->alamat,
+         'email' => $req->email,
+         'user_id' => Auth::user()->id
+      ]);
+      session()->flash('atlit', 'Official Berhasil Ditambahkan!');
+      return redirect()->back();
+   }
+   // Foto Atlit
+   public function fotoAtlit(Request $req)
+   {
+      if ($req->hasFile('file')) {
+         $file = $req->file('file');
+         $name = $file->getClientOriginalName();
+         $file->move(public_path('storage/avatars'), $name);
+         
+      }
+
+      return '<img id="uploading" alt="avatar" class="img-circle" src="'. url('storage/avatars') . '/' . $name .'" style="width: 150px; height: 150px;">';
+   }
+
+   // Tambah Atlit
+   public function tambahAtlit(Request $req)
+   {
+      $atlit = Atlit::create([
+         'nama' => $req->nama,
+         'tgl_lahir' => $req->tgl_lahir,
+         'berat_badan' => $req->berat_badan,
+         'gender' => $req->gender,
+         'alamat' => $req->alamat,
+         'email' => $req->email,
+         'user_id' => Auth::user()->id
+      ]);
+      $atlit->kategori()->create([
+         'kategori' => $req->kategori
+      ]);
+      session()->flash('atlit', 'Atlit Berhasil Ditambahkan!');
+      return redirect()->back();
+   }
+
+   // Kunci Data Atlit & Official
+   public function kunciAtlit(Request $req)
+   {
+      $id = $req->id;
+      $user = User::find($id);
+      $user->progress = 60;
+      $user->save();
    }
 
    //Pembayaran
    public function pembayaranShow()
    {
-     return view('user.pembayaran');
+     $id = Auth::user()->id;
+     if (Atlit::where('user_id', $id)) {
+        $atlit = Atlit::where('user_id', $id)->get();
+        $catlit = count($atlit);
+     }else {
+        $catlit = 1;
+     }
+     $harga = Harga::find(1);
+     return view('user.pembayaran', compact(['catlit', 'atlit', 'harga']));
+   }
+
+   //Upload Bukti Pembayaran
+   public function pembayaranUpload(Request $req)
+   {
+      $id = Auth::user()->id;
+      $user = User::find($id);
+
+      if ($req->hasFile('bukti_transfer')) {
+         $bukti = $req->file('bukti_transfer');
+         $name = $req->tanggal . " bukti Transfer Kolat " . Auth::user()->nama_instansi . '.' . $bukti->getClientOriginalExtension();
+         $bukti->move(public_path('storage/bukti_transfer'), $name);
+      }
+
+      $pembayaran = new Pembayaran([
+         'pembayaran' => $name,
+         'no_pembayaran' => $req->no_pembayaran,
+         'tanggal' => $req->tanggal,
+         'subtotal' => $req->subtotal,
+         'total' => $req->total,
+         'administrasi' => $req->administrasi,
+         'user_id' => $id
+      ]);
+
+      $user->progress = 75;
+      $user->save();
+      $pembayaran->save();
+
+      return redirect()->route('dashboard.user');
    }
 
    //Pengumuman

@@ -18,7 +18,8 @@ class CreateAtlitsTable extends Migration
             $table->string('nama');
             $table->string('email')->unique();
             $table->date('tgl_lahir');
-            $table->boolean('jenis_kelamin');
+            $table->string('gender');
+            $table->text('alamat');
             $table->integer('berat_badan');
             $table->string('avatar')->default('default.jpg');
             $table->integer('user_id')->unsigned();

@@ -25,13 +25,13 @@
        <a href="{{ route('agenda.user') }}"><i class="fa fa-calendar"></i> <span class="nav-label">Agenda</span></a>
    </li>
    <li>
-       <a href="{{ route('upload.user') }}"><i class="fa fa-file-text"></i> <span class="nav-label">Upload Berkas</span> <span class="pull-right label label-primary">!</span></a>
+       <a href="{{ route('upload.user') }}"><i class="fa fa-file-text"></i> <span class="nav-label">Upload Berkas</span> <span class="pull-right label label-primary" style="display: {{ Auth::user()->progress >= 30 ? 'none' : '' }}">!</span></a>
    </li>
    <li style="display: {{ Auth::user()->progress < 30 ? 'none' : '' }}">
        <a href="{{ route('atlit.user') }}"><i class="fa fa-users"></i> <span class="nav-label">Data Atlit </span></a>
    </li>
    <li style="display: {{ Auth::user()->progress < 60 ? 'none' : '' }}">
-       <a href="{{ route('pembayaran.user') }}"><i class="fa fa-credit-card"></i> <span class="nav-label">Pembayaran</span> <span class="label label-success pull-right">!</span></a>
+       <a href="{{ route('pembayaran.user') }}"><i class="fa fa-credit-card"></i> <span class="nav-label">Pembayaran</span> <span class="label label-success pull-right" style="display: {{ Auth::user()->progress > 75 ? 'none' : '' }}">!</span></a>
    </li>
    <li>
        <a href="{{ route('pengumuman.user') }}"><i class="fa fa-bullhorn"></i> <span class="nav-label">Pengumuman</span></a>
@@ -44,7 +44,7 @@
         <h2>Agenda KEJURLAT 2019 | KOLAT {{ Auth::user()->nama_instansi }}</h2>
         <ol class="breadcrumb">
            <li>
-               Dashboard
+               <a href="{{ route('dashboard.user') }}">Dashboard</a>
            </li>
             <li class="active">
                 <strong>Agenda</strong>
@@ -54,7 +54,7 @@
 </div>
 <div class="wrapper wrapper-content animated fadeInRight">
    <div class="row">
-      <div class="col-lg-6">
+      <div class="col-lg-6" style="margin-bottom: 30px;">
          <div class="ibox-content inspinia-timeline">
              <div class="timeline-item">
                  <div class="row">
@@ -118,7 +118,7 @@
              </div>
          </div>
       </div>
-      <div class="col-lg-6">
+      <div class="col-lg-6" style="margin-bottom: 50px;">
            <div class="ibox-content">
                <div id="calendar"></div>
            </div>

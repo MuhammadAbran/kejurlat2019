@@ -31,12 +31,27 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function(){
    Route::get('agenda', 'UserController@agenda')->name('agenda.user');
    // Upload berkas
    Route::get('upload', 'UserController@uploadShow')->name('upload.user');
+   Route::get('uploadGetData', 'UserController@uploadGetData')->name('upload.getData');
    Route::post('upload', 'UserController@upload')->name('upload.user.data');
    Route::post('upload_delete', 'UserController@uploadDel')->name('upload.user.del');
    Route::post('kunci_data', 'UserController@uploadKunci')->name('upload.kunci.data');
 
+   //Atlit & Official Management
    Route::get('atlit', 'UserController@atlitShow')->name('atlit.user');
+   Route::post('official', 'UserController@tambahOfficial')->name('tambah.official');
+   Route::post('atlit_foto', 'UserController@fotoAtlit')->name('foto.atlit');
+   Route::post('atlit_data', 'UserController@tambahAtlit')->name('tambah.atlit');
+   Route::post('atlit_kunci', 'UserController@kunciAtlit')->name('kunci.atlit');
+   Route::post('atlit_del', 'UserController@delAtlit')->name('del.atlit');
+   Route::post('official_del', 'UserController@delOfficial')->name('del.official');
+   Route::post('atlit_edit_data', 'UserController@editDataAtlit')->name('edit.data.atlit');
+   Route::post('atlit_edit', 'UserController@editAtlit')->name('edit.atlit');
+
+   // Pembayaran
    Route::get('pembayaran', 'UserController@pembayaranShow')->name('pembayaran.user');
+   Route::post('pembayaran_upload', 'UserController@pembayaranUpload')->name('pembayaran.upload');
+
+   // Pengumuman
    Route::get('pengumuman', 'UserController@pengumumanShow')->name('pengumuman.user');
 });
 

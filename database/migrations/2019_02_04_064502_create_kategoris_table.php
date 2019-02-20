@@ -20,7 +20,7 @@ class CreateKategorisTable extends Migration
             $table->string('tingkatan')->nullable();
             $table->integer('atlit_id')->unsigned();
 
-            $table->foreign('atlit_id')->references('id')->on('atlits');
+            $table->foreign('atlit_id')->references('id')->on('atlits')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
