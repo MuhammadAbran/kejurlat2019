@@ -193,7 +193,7 @@ class UserController extends Controller
      $id = Auth::user()->id;
      if (Atlit::where('user_id', $id)) {
         $atlit = Atlit::where('user_id', $id)->get();
-        $catlit = count($atlit);
+        $catlit = $atlit->count();
      }else {
         $catlit = 1;
      }

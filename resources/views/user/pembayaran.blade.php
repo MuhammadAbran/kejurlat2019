@@ -116,6 +116,8 @@
                </div>
             </div>
          </div>
+             <div class="row">
+                 <div class="col-lg-12">
    @elseif(Auth::user()->progress >= 100)
    <div class="wrapper wrapper-content  animated fadeInRight">
        <div class="row">
@@ -127,11 +129,13 @@
                </div>
             </div>
          </div>
+             <div class="row">
+                 <div class="col-lg-12">
    @else
 
-   <div class="row">
-       <div class="col-lg-12">
-           <div class="wrapper wrapper-content animated fadeInRight">
+   <div class="wrapper wrapper-content  animated fadeInRight">
+       <div class="row">
+           <div class="col-lg-12">
    @endif
 
                <div class="ibox-content p-xl" style="margin-bottom: 30px;">
@@ -206,6 +210,7 @@
                        </div>
                    </div>
                 </div>
+             </div>
                 </div>
    @endif
 @stop

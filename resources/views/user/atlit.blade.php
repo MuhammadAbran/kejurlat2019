@@ -261,7 +261,7 @@
                 <div class="col-lg-3">
                     <div class="contact-box center-version">
 
-                        <a href="#"  data-toggle="modal" data-target="#myModal5" style="min-height: 400px">
+                        <a href="#"  data-toggle="modal" data-target="#myModal5" style="min-height: 415px">
                            <div class="m-b-xs">
                               <img alt="avatar" class="img-circle" src="{{ url('storage/avatars/' . Auth::user()->avatar) }}" style="margin-right: -60px;width: 150px; height: 150px;"><span class="pull-right label label-success">Manager</span>
                            </div>
@@ -287,7 +287,7 @@
                 <div class="col-lg-3">
                     <div class="contact-box center-version">
 
-                        <a data-id="{{ $off->id }}" data-toggle="modal" data-target="#myModal5" style="min-height: 400px">
+                        <a data-id="{{ $off->id }}" data-toggle="modal" data-target="#myModal5" style="min-height: 415px">
                            <div class="m-b-xs">
                               <img alt="avatar" class="img-circle" src="{{ url('storage/avatars/' . Auth::user()->avatar) }}" style="margin-right: -60px;width: 150px; height: 150px;"><span class="pull-right label" style="background-color: white; border: 0.5px solid darkgrey">Official</span>
                            </div>
@@ -301,11 +301,15 @@
                             </address>
                         </a>
                         <div class="contact-box-footer">
-                            <div class="m-t-xs btn-group">
-                                <a data-id="{{ $off->id }}" class="btn btn-xs btn-white" data-toggle="modal" data-target="#myModal4" style="display: {{ Auth::user()->progress >= 60 ? 'none' : 'block' }}"><i class="fa fa-edit"></i> Edit </a>
-                                <a data-id="{{ $off->id }}" class="btn btn-xs btn-white" data-toggle="modal" data-target="#myModal5"><i class="fa fa-eye"></i> Lihat</a>
-                                <a data-id="{{ $off->id }}" class="btn btn-xs btn-primary delete_off" style="display: {{ Auth::user()->progress >= 60 ? 'none' : 'block' }}"><i class="fa fa-trash"></i> Hapus</a>
-                            </div>
+                         @if(Auth::user()->progress >= 60)
+                             <a data-id="{{ $off->id }}" class="btn btn-xs btn-white" data-toggle="modal" data-target="#myModal5"><i class="fa fa-eye"></i> Lihat</a>
+                         @else
+                           <div class="m-t-xs btn-group">
+                             <a data-id="{{ $off->id }}" class="btn btn-xs btn-white" data-toggle="modal" data-target="#myModal4"><i class="fa fa-edit"></i> Edit </a>
+                             <a data-id="{{ $off->id }}" class="btn btn-xs btn-white" data-toggle="modal" data-target="#myModal5"><i class="fa fa-eye"></i> Lihat</a>
+                             <a data-id="{{ $off->id }}" class="btn btn-xs btn-primary delete_off"><i class="fa fa-trash"></i> Hapus</a>
+                           </div>
+                         @endif
                         </div>
                     </div>
                 </div>
@@ -317,7 +321,7 @@
                 <div class="col-lg-3">
                     <div class="contact-box center-version">
 
-                        <a data-toggle="modal" data-target="#myModal5" style="min-height: 400px">
+                        <a data-toggle="modal" data-target="#myModal5" style="min-height: 415px">
                            <div class="m-b-xs">
                               <img alt="avatar" class="img-circle" src="{{ url('storage/avatars/' .$atlit->avatar) }}" style="margin-right: -60px;width: 150px; height: 150px;"><span class="pull-right label label-primary">Atlit</span>
                            </div>
@@ -332,11 +336,15 @@
                             </address>
                         </a>
                         <div class="contact-box-footer">
-                            <div class="m-t-xs btn-group">
-                                <a data-id="{{ $atlit->id }}" class="btn btn-xs btn-white edit_atlit" data-toggle="modal" data-target="#myModal4" style="display: {{ Auth::user()->progress >= 60 ? 'none' : 'block' }}"><i class="fa fa-edit"></i> Edit </a>
-                                <a class="btn btn-xs btn-white" data-toggle="modal" data-target="#myModal5"><i class="fa fa-eye"></i> Lihat</a>
-                                <a data-id="{{ $atlit->id }}" class="btn btn-xs btn-primary delete_atlit" style="display: {{ Auth::user()->progress >= 60 ? 'none' : 'block' }}"><i class="fa fa-trash"></i> Hapus</a>
-                            </div>
+                           @if(Auth::user()->progress >= 60)
+                              <a class="btn btn-xs btn-white" data-toggle="modal" data-target="#myModal5"><i class="fa fa-eye"></i> Lihat</a>
+                           @else
+                              <div class="m-t-xs btn-group">
+                                 <a data-id="{{ $atlit->id }}" class="btn btn-xs btn-white edit_atlit" data-toggle="modal" data-target="#myModal4"><i class="fa fa-edit"></i> Edit </a>
+                                 <a class="btn btn-xs btn-white" data-toggle="modal" data-target="#myModal5"><i class="fa fa-eye"></i> Lihat</a>
+                                 <a data-id="{{ $atlit->id }}" class="btn btn-xs btn-primary delete_atlit"><i class="fa fa-trash"></i> Hapus</a>
+                              </div>
+                           @endif
                         </div>
 
                     </div>
@@ -368,7 +376,6 @@
 
 <!-- SWAL -->
 <script src="{{ asset('master/js/plugins/sweetalert/sweetalert.min.js') }}"></script>
-
 <script>
    $(document).ready(function(){
 
@@ -426,6 +433,11 @@
 
       //Image Toggle
       $(document).on('click', '.toggle_atlit', function(){
+         $('#uploading').html("");
+         $('#remove_img').css('display', '');
+      });
+
+      $(document).on('click', '.edit_atlit', function(){
          $('#uploading').html("");
          $('#remove_img').css('display', '');
       });
