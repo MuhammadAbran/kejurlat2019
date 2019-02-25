@@ -76,7 +76,7 @@
                         <div class="modal-title">
                            <div class="m-b-xs">
                               <span id="remove_img"></span>
-                              <span id="uploading"></span>
+                              <span id="uploading_edit"></span>
                            </div>
                            <div class="m-b-xs">
                               <input type="file" accept="image/*" name="avatar" id="avatar_edit" style="display: none">
@@ -180,11 +180,11 @@
                      <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                      <div class="modal-title">
                         <div class="m-b-xs">
-                           <img id="remove_img" alt="avatar" class="img-circle" src="https://pbs.twimg.com/profile_images/909399057/Lambang_MP_400x400.jpg" style="width: 150px; height: 150px;">
+                           <img id="remove_img_1" alt="avatar" class="img-circle" src="https://pbs.twimg.com/profile_images/909399057/Lambang_MP_400x400.jpg" style="width: 150px; height: 150px;">
                            <span id="uploading"></span>
                         </div>
                         <div class="m-b-xs">
-                                  <input type="file" accept="image/*" name="avatar" id="avatar" style="display: none">
+                                  <input type="file" accept="image/*" name="avatar" id="avatar" data-edit="0" style="display: none">
                                   <button class="ladda-button btn btn-primary ladda-btn" type="button" id="btn-ck" data-style="zoom-in">Upload Foto</button>
                         </div>
                      </div>
@@ -323,7 +323,7 @@
 
                         <a data-toggle="modal" data-target="#myModal5" style="min-height: 415px">
                            <div class="m-b-xs">
-                              <img alt="avatar" class="img-circle" src="{{ url('storage/avatars/' .$atlit->avatar) }}" style="margin-right: -60px;width: 150px; height: 150px;"><span class="pull-right label label-primary">Atlit</span>
+                              <img alt="avatar" class="img-circle" src="{{ url('storage/avatars/' .$atlit->avatar) }}" style="margin-right: -50px;width: 150px; height: 150px;"><span class="pull-right label label-primary">Atlit</span>
                            </div>
                             <h3 class="m-b-xs"><strong>{{ $atlit->nama }}</strong></h3>
 
@@ -384,13 +384,53 @@
       });
 
       $('#btn-edit').on('click', function(){
-         $('#avatar').click();
+         $('#avatar_edit').click();
       });
+
+      // Update Images
+     $(document).on('change', '#avatar_edit', function(event){
+        event.preventDefault();
+        var edit = $(this).data('edit');
+        var property = $('#avatar')[0].files;
+        var image_name = property[0].name;
+        var image_extension = image_name.split('.').pop().toLowerCase();
+        console.log(property[0]);
+        if (property[0].size > 2000000) {
+           swal("ERROR!", "Ukuran Foto Terlalu Besar!", "error");
+        }else {
+           var form_data = new FormData();
+           form_data.append("file", property[0]);
+           $.ajax({
+             url: "{{ route('foto.atlit') }}",
+             method: "POST",
+             data: form_data,
+             headers: {
+                 "X-CSRF-TOKEN": $('meta[name=csrf]').attr('content')
+             },
+             contentType: false,
+             cache: false,
+             processData: false,
+             success: function(data){
+                 $('#avatar_input').val(data.avatar);
+                 $('#edit_avatar').val(data.avatar);
+                 $('#uploading_edit').html(data.images);
+                 $('#remove_img').css('display', 'none');
+                 swal("Berhasil!", "Berhasil Diedit!.", "success");
+                 console.log(edit);
+              },
+             error: function(error){
+                 swal("ERROR!", error.statusText, "error");
+                 console.log(error.statusText);
+             }
+           });
+        }
+     });
 
 
       // Upload Images
       $(document).on('change', '#avatar', function(event){
          event.preventDefault();
+         var edit = $(this).data('edit');
          var property = $('#avatar')[0].files;
          var image_name = property[0].name;
          var image_extension = image_name.split('.').pop().toLowerCase();
@@ -410,18 +450,13 @@
                contentType: false,
                cache: false,
                processData: false,
-               beforeSend: function(){
-
-               },
                success: function(data){
-                  // setTimeout(function(){
-                  //      ladda.ladda( 'stop' );
-                  //  },1000);
-                  swal("Berhasil!", "Berhasil Diupload!.", "success");
                   $('#avatar_input').val(data.avatar);
                   $('#edit_avatar').val(data.avatar);
                   $('#uploading').html(data.images);
-                  $('#remove_img').css('display', 'none');
+                  $('#remove_img_1').css('display', 'none');
+                  swal("Berhasil!", "Berhasil Diupload!.", "success");
+                  console.log(edit);
                },
                error: function(error){
                   swal("ERROR!", error.statusText, "error");
@@ -434,11 +469,11 @@
       //Image Toggle
       $(document).on('click', '.toggle_atlit', function(){
          $('#uploading').html("");
-         $('#remove_img').css('display', '');
+         $('#remove_img_1').css('display', '');
       });
 
       $(document).on('click', '.edit_atlit', function(){
-         $('#uploading').html("");
+         $('#uploading_edit').html("");
          $('#remove_img').css('display', '');
       });
 

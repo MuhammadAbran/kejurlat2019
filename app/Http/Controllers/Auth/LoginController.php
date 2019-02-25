@@ -48,8 +48,6 @@ class LoginController extends Controller
          if ($user == null) {
             echo "Email Ini Tidak Terdaftar!";
          }
-      }else {
-         echo "Email Tidak Boleh Kosong!";
       }
     }
 

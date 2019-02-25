@@ -68,11 +68,11 @@ class UserController extends Controller
    public function atlitShow()
    {
      $id = Auth::user()->id;
-     $atlits = Atlit::all();
+     // $atlits = Atlit::all();
      $offs = Official::all();
      if (Atlit::where('user_id', $id)) {
-        $atlit = Atlit::where('user_id', $id)->get();
-        $catlit = count($atlit);
+        $atlits = Atlit::where('user_id', $id)->get();
+        $catlit = count($atlits);
      }else {
         $catlit = 0;
      }
