@@ -37,6 +37,7 @@
                <div class="modal-body">
                   <form class="pendaftaran" action="{{ route('register') }}" method="POST">
                      @csrf
+                     <input type="hidden" name="no_pembayaran" value="{{ 'KJT-' . strtoupper(uniqid()) . '-00' }}">
                       <div class="form-group">
                         <label>Nama Instansi</label>
                         <input type="text" placeholder="Nama Instansi atau Sekolah" class="form-control nama_instansi" name="nama_instansi" required autofocus>

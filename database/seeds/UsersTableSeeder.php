@@ -16,7 +16,7 @@ class UsersTableSeeder extends Seeder
            'nama_instansi' => 'UGM',
            'nama_manager' => 'Agung M',
            'email_manager' => 'a@a.a',
-           'no_pembayaran' => 'KJT-' . mt_rand(1, 10000) . '-00', 
+           'no_pembayaran' => 'KJT-' . strtoupper(uniqid()) . '-00', 
            'password' => bcrypt('aaa'),
            'progress' => 0,
         ]);
