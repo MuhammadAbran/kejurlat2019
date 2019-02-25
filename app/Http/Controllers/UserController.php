@@ -144,7 +144,7 @@ class UserController extends Controller
    {
       if ($req->hasFile('file')) {
          $file = $req->file('file');
-         $name = $file->getClientOriginalName();
+         $name = "Avatar_" . uniqid() . "." . $file->getClientOriginalExtension();
          $file->move(public_path('storage/avatars'), $name);
 
       }
@@ -204,6 +204,7 @@ class UserController extends Controller
    //Upload Bukti Pembayaran
    public function pembayaranUpload(Request $req)
    {
+      // dd($req->hasFile('bukti_transfer'));
       $id = Auth::user()->id;
       $user = User::find($id);
 
@@ -211,7 +212,7 @@ class UserController extends Controller
          $bukti = $req->file('bukti_transfer');
          $name = $req->tanggal . " bukti Transfer Kolat " . Auth::user()->nama_instansi . '.' . $bukti->getClientOriginalExtension();
          $bukti->move(public_path('storage/bukti_transfer'), $name);
-      }
+
 
       $pembayaran = new Pembayaran([
          'pembayaran' => $name,
@@ -226,6 +227,10 @@ class UserController extends Controller
       $user->progress = 75;
       $user->save();
       $pembayaran->save();
+
+   }else {
+      dd($req->file('bukti_transfer'));
+   }
 
       return redirect()->route('dashboard.user');
    }

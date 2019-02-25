@@ -80,7 +80,7 @@
                            </div>
                            <div class="m-b-xs">
                               <input type="file" accept="image/*" name="avatar" id="avatar_edit" style="display: none">
-                              <button class="ladda-button btn btn-primary ladda-btn" type="button" id="btn-edit" data-style="zoom-in">Edit Foto</button>
+                              <button class="btn btn-primary" type="button" id="btn-edit">Edit Foto</button>
                            </div>
                         </div>
                      </div>
@@ -390,8 +390,7 @@
       // Update Images
      $(document).on('change', '#avatar_edit', function(event){
         event.preventDefault();
-        var edit = $(this).data('edit');
-        var property = $('#avatar')[0].files;
+        var property = $('#avatar_edit')[0].files;
         var image_name = property[0].name;
         var image_extension = image_name.split('.').pop().toLowerCase();
         console.log(property[0]);
@@ -416,7 +415,6 @@
                  $('#uploading_edit').html(data.images);
                  $('#remove_img').css('display', 'none');
                  swal("Berhasil!", "Berhasil Diedit!.", "success");
-                 console.log(edit);
               },
              error: function(error){
                  swal("ERROR!", error.statusText, "error");
@@ -430,7 +428,6 @@
       // Upload Images
       $(document).on('change', '#avatar', function(event){
          event.preventDefault();
-         var edit = $(this).data('edit');
          var property = $('#avatar')[0].files;
          var image_name = property[0].name;
          var image_extension = image_name.split('.').pop().toLowerCase();
@@ -456,7 +453,6 @@
                   $('#uploading').html(data.images);
                   $('#remove_img_1').css('display', 'none');
                   swal("Berhasil!", "Berhasil Diupload!.", "success");
-                  console.log(edit);
                },
                error: function(error){
                   swal("ERROR!", error.statusText, "error");
