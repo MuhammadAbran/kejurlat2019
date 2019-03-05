@@ -59,6 +59,7 @@
          </div>
          <div class="col-lg-4">
               <div class="title-action animated fadeInRight">
+                  <a href="#" class="btn btn-success toggle_atlit" data-toggle="modal" data-target="#tambah_cuti" style="display: {{ Auth::user()->progress >= 60 ? 'none' : '' }}"><i class="fa fa-plus"></i> Cuti </a>
                   <a href="#" class="btn btn-primary toggle_atlit" data-toggle="modal" data-target="#tambah_atlit" style="display: {{ Auth::user()->progress >= 60 ? 'none' : '' }}"><i class="fa fa-plus"></i> Atlit </a>
                   <a href="#" class="btn btn-white" data-toggle="modal" data-target="#tambah_official" style="display: {{ Auth::user()->progress >= 60 ? 'none' : '' }}"><i class="fa fa-plus"></i> Official </a>
                   <a href="#" data-atlit="{{ Auth::user()->progress >= 60 || $catlit <= 1 ? 0 : 1 }}" data-id="{{ Auth::user()->id }}" class="btn btn-warning kunci_data" {{ Auth::user()->progress >= 60 || $catlit <= 1 ? 'disabled' : '' }}><i class="fa fa-lock"></i> {{ Auth::user()->progress >= 60 ? 'Terkunci' : 'Kunci Data' }} </a>
@@ -66,6 +67,52 @@
          </div>
       </div>
          <!-- end breadcrumb -->
+         <div class="modal inmodal" id="tambah_cuti" tabindex="-1" role="dialog"  aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content animated fadeIn">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <div class="modal-title">
+                           <div class="m-b-xs">
+                              <img alt="avatar" class="img-circle" src="https://pbs.twimg.com/profile_images/909399057/Lambang_MP_400x400.jpg" style="width: 150px; height: 150px;">
+                           </div>
+                           <div class="m-b-xs">
+                              <form action="{{ route('tambah.official') }}" method="POST" enctype="multipart/form-data">
+                                 @csrf
+                                 <label title="Upload image file" for="inputImage" class="btn btn-primary">
+                                     <input type="file" accept="image/*" name="file" id="inputImage" class="hide">
+                                     Upload Foto
+                                 </label>
+                              </form>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="modal-body">
+                        <form method="POST" action="{{ route('tambah.official') }}">
+                           @csrf
+                            <div class="form-group"><label>Nama Lengkap</label> <input type="text" placeholder="Nama Lengkap" value="{{ old('nama') }}" class="form-control email_manager" name="nama" autofocus></div>
+                            <div class="form-group"><label>Tanggal Lahir</label> <input type="date" class="form-control" name="tgl_lahir"></div>
+                            <label>Jenis Kelamin</label><div class="form-group">
+                              <div class="radio radio-info radio-inline">
+                                 <input type="radio" id="inlineRadio1" value="Laki-Laki" name="gender" checked="">
+                                 <label for="inlineRadio1"> Laki-Laki </label>
+                              </div>
+                              <div class="radio radio-danger radio-inline">
+                                 <input type="radio" id="inlineRadio2" value="Perempuan" name="gender">
+                                 <label for="inlineRadio2"> Perempuan </label>
+                              </div>
+                            </div>
+                            <div class="form-group"><label>Alamat Lengkap</label> <textarea placeholder="Alamat Lengkap" class="form-control" name="alamat"></textarea></div>
+                            <div class="form-group"><label>Email</label> <input type="email" placeholder="Email" class="form-control password_manager" name="email"></div>
+                     </div>
+                           <div class="modal-footer">
+                              <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                              <button type="submit" id="" class="btn btn-primary">Simpan</button>
+                           </div>
+                        </form>
+                </div>
+            </div>
+         </div>
 
          <!-- EDIT -->
          <div class="modal inmodal" id="myModal4" tabindex="-1" role="dialog"  aria-hidden="true">

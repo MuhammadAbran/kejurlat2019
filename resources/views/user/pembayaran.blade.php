@@ -217,6 +217,10 @@
 @push('scripts')
    <script type="text/javascript">
       $(document).ready(function(){
+         console.log($('#total').val());
+         if ($('#total').val()) {
+            $('.total').prop('disabled', true);
+         }
          $(document).on('click', '.total', function(){
             $('#total').val("{{ $total }}");
             $('#sub').val("{{ $sub }}");

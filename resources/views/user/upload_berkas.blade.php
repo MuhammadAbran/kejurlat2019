@@ -150,7 +150,7 @@
 
       var timer;
       timer = setTimeout(function(){
-         $.get('http://localhost:8000/user/uploadGetData',
+         $.get('http://localhost:5000/user/uploadGetData',
            function(data){
                $(data).each(function(i, upload){
                   $('.uploadGetData').append($('<div class="file-box">')
@@ -165,7 +165,7 @@
            )
                })
            });
-      },2000);
+      },1000);
 
       var l = $( '.refresh-btn' ).ladda();
 
