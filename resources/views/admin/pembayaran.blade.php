@@ -55,7 +55,7 @@
            <div class="ibox-content">
 
                <div class="table-responsive">
-           <table class="table table-striped table-bordered table-hover dataTables-example" >
+           <table class="table table-striped table-bordered table-hover pembayaran-table" >
            <thead>
            <tr>
                <th>No</th>
@@ -90,7 +90,7 @@
 <!-- Page-Level Scripts -->
 <script>
     $(document).ready(function(){
-        $('.dataTables-example').DataTable({
+        $('.pembayaran-table').DataTable({
             dom: '<"html5buttons"B>lTfgitp',
             buttons: [
                {extend: 'copy', text: '<i class="fa fa-clipboard" aria-hidden="true"></i> Copy'},
@@ -109,6 +109,37 @@
                }
                }
             ],
+            prossessing: true,
+            serverside: true,
+            ajax: "{{ route('pembayaran.data') }}",
+            columns: [
+               {
+                  name: 'id',
+                  data: 'DT_RowIndex',
+
+               },
+               {
+                  name: 'nama_instansi',
+                  data: 'user.nama_instansi',
+               },
+               {
+                  name: 'nama_manager',
+                  data: 'user.nama_manager',
+               },
+               {
+                  name: 'pembayaran',
+                  data: 'pembayaran',
+                  sortable: false,
+                  render: function(data)
+                  {
+                     return '<button class="btn-xs btn-success"><i class="fa fa-eye"></i> Lihat</button>';
+                  }
+               },
+               {
+                  name: 'action',
+                  data: 'action',
+               }
+            ]
         });
     });
 </script>

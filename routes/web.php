@@ -17,6 +17,9 @@ Route::get('/', function () {
 
 //ADMIN ROUTER
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(){
+   //AJAX DATA
+   Route::get('dataPembayaran', 'AdminController@pembayaran_data')->name('pembayaran.data');
+
    Route::get('dashboard', 'AdminController@index')->name('dashboard.admin');
    Route::get('upload', 'AdminController@uploadShow')->name('upload.admin');
    Route::get('kolat/{id}', 'AdminController@kolatShow')->name('kolat.admin');

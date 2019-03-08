@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Yajra\Datatables\Datatables;
 
 class AdminController extends Controller
 {
@@ -66,6 +67,21 @@ class AdminController extends Controller
    {
      $data['user'] = User::all();
      return view('admin.pembayaran', $data);
+   }
+
+   public function pembayaran_data()
+   {
+      $data = \App\Pembayaran::with('user');
+
+      return Datatables::of($data)
+            ->addColumn('action', function ($data){
+                   return'
+                      <a href="#" data-id="'. $data->id .'" class="btn-danger btn-sm delete_team" data-toggle="modal" data-target="#deleteTeam"><i class="fa fa-trash" ></i></a>
+                   ';
+            })
+            ->addIndexColumn()
+            ->rawColumns(['action'])
+            ->make(true);
    }
 
    //management Agenda
